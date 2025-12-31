@@ -1,0 +1,2 @@
+# agricultural_trade_cos
+基于长短期记忆的农产品生命周期交易与价格预测系统
