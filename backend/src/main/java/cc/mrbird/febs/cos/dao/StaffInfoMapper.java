@@ -14,10 +14,10 @@ import java.util.LinkedHashMap;
 public interface StaffInfoMapper extends BaseMapper<StaffInfo> {
 
     /**
-     * 分页获取技师信息
+     * 分页获取批发商信息
      *
      * @param page      分页对象
-     * @param staffInfo 技师信息
+     * @param staffInfo 批发商信息
      * @return 结果
      */
     IPage<LinkedHashMap<String, Object>> selectStaffPage(Page<StaffInfo> page, @Param("staffInfo") StaffInfo staffInfo);

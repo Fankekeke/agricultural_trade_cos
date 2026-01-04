@@ -70,7 +70,7 @@ public class WithdrawInfoController {
      */
     @PostMapping
     public R save(WithdrawInfo withdrawInfo) throws FebsException {
-        // 校验此技师是否有提现正在审核中
+        // 校验此批发商是否有提现正在审核中
         StaffInfo staffInfo = staffInfoService.getOne(Wrappers.<StaffInfo>lambdaQuery().eq(StaffInfo::getUserId, withdrawInfo.getStaffId()));
         int count = withdrawInfoService.count(Wrappers.<WithdrawInfo>lambdaQuery().eq(WithdrawInfo::getStatus, 0).eq(WithdrawInfo::getStaffId, staffInfo.getId()));
         if (count > 0) {

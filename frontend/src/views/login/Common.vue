@@ -4,9 +4,9 @@
       <div class="card">
         <div class="header-section">
           <div class="header">
-            <span class="title">老物件回收与修复系统</span>
+            <span class="title">农产品交易价格预测系统</span>
           </div>
-          <div class="desc">欢迎使用我们的专业回收与修复服务</div>
+          <div class="desc">欢迎使用农产品交易价格预测系统服务</div>
         </div>
         <component :is="componentName" @regist="handleRegist" class="main-content"></component>
       </div>

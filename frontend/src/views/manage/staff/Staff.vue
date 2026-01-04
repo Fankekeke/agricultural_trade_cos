@@ -7,7 +7,7 @@
           <div :class="advanced ? null: 'fold'">
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="技师姓名"
+                label="批发商姓名"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
                 <a-input v-model="queryParams.name"/>
@@ -15,7 +15,7 @@
             </a-col>
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="技师编号"
+                label="批发商编号"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
                 <a-input v-model="queryParams.code"/>
@@ -23,7 +23,7 @@
             </a-col>
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="技师状态"
+                label="批发商状态"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
                 <a-select v-model="queryParams.status" allowClear>
@@ -129,10 +129,10 @@ export default {
     }),
     columns () {
       return [{
-        title: '技师姓名',
+        title: '批发商姓名',
         dataIndex: 'name'
       }, {
-        title: '技师编号',
+        title: '批发商编号',
         dataIndex: 'code'
       }, {
         title: '性别',
@@ -223,7 +223,7 @@ export default {
     },
     handlestaffAddSuccess () {
       this.staffAdd.visiable = false
-      this.$message.success('新增技师成功')
+      this.$message.success('新增批发商成功')
       this.search()
     },
     edit (record) {
@@ -235,7 +235,7 @@ export default {
     },
     handlestaffEditSuccess () {
       this.staffEdit.visiable = false
-      this.$message.success('修改技师成功')
+      this.$message.success('修改批发商成功')
       this.search()
     },
     handleDeptChange (value) {

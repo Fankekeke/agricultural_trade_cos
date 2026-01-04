@@ -70,7 +70,7 @@
                 <head-info title="用户数量" :content="titleAdminData.merchantNum" :center="false" :bordered="false"/>
               </a-col>
               <a-col :span="4">
-                <head-info title="技师数量" :content="titleAdminData.staffNum" :center="false" :bordered="false"/>
+                <head-info title="批发商数量" :content="titleAdminData.staffNum" :center="false" :bordered="false"/>
               </a-col>
               <a-col :span="4">
                 <head-info title="总收益" :content="titleAdminData.totalPrice" :center="false" :bordered="false"/>

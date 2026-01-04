@@ -17,10 +17,10 @@ import java.util.LinkedHashMap;
 public class StaffInfoServiceImpl extends ServiceImpl<StaffInfoMapper, StaffInfo> implements IStaffInfoService {
 
     /**
-     * 分页获取技师信息
+     * 分页获取批发商信息
      *
      * @param page      分页对象
-     * @param staffInfo 技师信息
+     * @param staffInfo 批发商信息
      * @return 结果
      */
     @Override

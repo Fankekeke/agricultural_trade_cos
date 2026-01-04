@@ -76,7 +76,7 @@ public class OrderQuotationController {
      * 获取报价信息
      *
      * @param orderId 订单ID
-     * @param staffId 技师ID
+     * @param staffId 批发商ID
      * @return 结果
      */
     @GetMapping("/queryQuotationByStaff")

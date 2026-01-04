@@ -1,6 +1,6 @@
 <template>
   <a-drawer
-    title="新增技师地址"
+    title="新增批发商地址"
     :maskClosable="false"
     width=800
     placement="right"
@@ -27,7 +27,7 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label='技师详细地址'>
+          <a-form-item label='批发商详细地址'>
             <a-input-search
               v-decorator="[
               'address'

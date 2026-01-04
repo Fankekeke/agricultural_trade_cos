@@ -7,7 +7,7 @@
           <div :class="advanced ? null: 'fold'">
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="技师名称"
+                label="批发商名称"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
                 <a-input v-model="queryParams.name"/>
@@ -15,7 +15,7 @@
             </a-col>
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="技师编号"
+                label="批发商编号"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
                 <a-input v-model="queryParams.code"/>
@@ -141,7 +141,7 @@ export default {
     }),
     columns () {
       return [{
-        title: '所属技师',
+        title: '所属批发商',
         dataIndex: 'name',
         customRender: (text, row, index) => {
           if (text !== null) {
@@ -253,7 +253,7 @@ export default {
     },
     handleaddressAddSuccess () {
       this.addressAdd.visiable = false
-      this.$message.success('新增技师地址成功')
+      this.$message.success('新增批发商地址成功')
       this.search()
     },
     edit (record) {
@@ -265,7 +265,7 @@ export default {
     },
     handleaddressEditSuccess () {
       this.addressEdit.visiable = false
-      this.$message.success('修改技师地址成功')
+      this.$message.success('修改批发商地址成功')
       this.search()
     },
     handleDeptChange (value) {

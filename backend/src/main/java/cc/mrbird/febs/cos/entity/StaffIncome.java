@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
- * 技师收益
+ * 批发商收益
  *
  * @author FanK
  */
@@ -30,7 +30,7 @@ public class StaffIncome implements Serializable {
     private Integer id;
 
     /**
-     * 技师ID
+     * 批发商ID
      */
     private Integer staffId;
 

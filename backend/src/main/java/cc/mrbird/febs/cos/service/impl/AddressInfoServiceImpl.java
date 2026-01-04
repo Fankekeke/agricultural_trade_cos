@@ -29,7 +29,7 @@ public class AddressInfoServiceImpl extends ServiceImpl<AddressInfoMapper, Addre
     }
 
     /**
-     * 分页获取技师地址信息
+     * 分页获取批发商地址信息
      *
      * @param page        分页对象
      * @param addressInfo 收货地址信息

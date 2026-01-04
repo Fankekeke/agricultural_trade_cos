@@ -231,7 +231,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     /**
-     * 注册技师
+     * 注册批发商
      *
      * @param username 用户名
      * @param password 密码
@@ -271,7 +271,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     /**
-     * 注册技师
+     * 注册批发商
      *
      * @param username 用户名
      * @param password 密码
@@ -286,7 +286,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setStatus(User.STATUS_VALID);
         user.setSsex(User.SEX_UNKNOW);
         user.setAvatar(User.DEFAULT_AVATAR);
-        user.setDescription("注册技师");
+        user.setDescription("注册批发商");
         user.setName(staffInfo.getName());
         user.setImages(staffInfo.getImages());
         user.setRoleFlag("2");

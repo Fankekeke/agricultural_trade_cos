@@ -26,7 +26,7 @@ public interface OrderInfoMapper extends BaseMapper<OrderInfo> {
     /**
      * 本月订单信息
      *
-     * @param staffId 技师ID
+     * @param staffId 批发商ID
      * @return 结果
      */
     List<OrderInfo> selectOrderByMonth(@Param("staffId") Integer staffId);
@@ -34,7 +34,7 @@ public interface OrderInfoMapper extends BaseMapper<OrderInfo> {
     /**
      * 本年订单信息
      *
-     * @param staffId 技师ID
+     * @param staffId 批发商ID
      * @return 结果
      */
     List<OrderInfo> selectOrderByYear(@Param("staffId") Integer staffId);
@@ -42,7 +42,7 @@ public interface OrderInfoMapper extends BaseMapper<OrderInfo> {
     /**
      * 十天内订单数量统计
      *
-     * @param staffId 技师ID
+     * @param staffId 批发商ID
      * @return 结果
      */
     List<LinkedHashMap<String, Object>> selectOrderNumWithinDays(@Param("staffId") Integer staffId);
@@ -50,7 +50,7 @@ public interface OrderInfoMapper extends BaseMapper<OrderInfo> {
     /**
      * 十天内订单收益统计
      *
-     * @param staffId 技师ID
+     * @param staffId 批发商ID
      * @return 结果
      */
     List<LinkedHashMap<String, Object>> selectOrderPriceWithinDays(@Param("staffId") Integer staffId);

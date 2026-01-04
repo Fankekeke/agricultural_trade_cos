@@ -115,11 +115,11 @@ export default {
     }),
     columns () {
       return [{
-        title: '技师编号',
+        title: '批发商编号',
         dataIndex: 'code',
         ellipsis: true
       }, {
-        title: '技师姓名',
+        title: '批发商姓名',
         dataIndex: 'name',
         ellipsis: true
       }, {

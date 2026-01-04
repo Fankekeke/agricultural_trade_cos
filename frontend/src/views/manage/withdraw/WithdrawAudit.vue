@@ -18,10 +18,10 @@
       </div>
       <a-row style="padding-left: 24px;padding-right: 24px;">
         <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">基础信息</span></a-col>
-        <a-col :span="8"><b>技师编号：</b>
+        <a-col :span="8"><b>批发商编号：</b>
           {{ withdrawData.code }}
         </a-col>
-        <a-col :span="8"><b>技师姓名：</b>
+        <a-col :span="8"><b>批发商姓名：</b>
           {{ withdrawData.name ? withdrawData.name : '- -' }}
         </a-col>
         <a-col :span="8"><b>联系方式：</b>

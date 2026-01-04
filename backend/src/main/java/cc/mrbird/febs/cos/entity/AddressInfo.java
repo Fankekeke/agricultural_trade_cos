@@ -75,7 +75,7 @@ public class AddressInfo implements Serializable {
     private Integer userId;
 
     /**
-     * 所属技师
+     * 所属批发商
      */
     private Integer staffId;
 

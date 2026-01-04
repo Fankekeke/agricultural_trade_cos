@@ -1,5 +1,5 @@
 <template>
-  <a-modal v-model="show" title="技师地址详情" @cancel="onClose" :width="1000">
+  <a-modal v-model="show" title="批发商地址详情" @cancel="onClose" :width="1000">
     <template slot="footer">
       <a-button key="back" @click="onClose" type="danger">
         关闭
@@ -38,7 +38,7 @@
         <a-col :span="8"><b>纬度：</b>
           {{ addressData.latitude }}
         </a-col>
-        <a-col :span="8"><b>所属技师：</b>
+        <a-col :span="8"><b>所属批发商：</b>
           {{ addressData.name }}
         </a-col>
       </a-row>

@@ -9,7 +9,7 @@
         <a-form :form="form" layout="vertical">
           <a-row :gutter="20">
             <a-col :span="12">
-              <a-form-item label='技师编号' v-bind="formItemLayout">
+              <a-form-item label='批发商编号' v-bind="formItemLayout">
                 <a-input disabled v-decorator="[
                 'code',
                 ]"/>
@@ -24,10 +24,10 @@
               </a-form-item>
             </a-col>
             <a-col :span="12">
-              <a-form-item label='技师性别' v-bind="formItemLayout">
+              <a-form-item label='批发商性别' v-bind="formItemLayout">
                 <a-select v-decorator="[
                   'sex',
-                  { rules: [{ required: true, message: '请输入技师性别!' }] }
+                  { rules: [{ required: true, message: '请输入批发商性别!' }] }
                   ]">
                   <a-select-option value="1">男</a-select-option>
                   <a-select-option value="2">女</a-select-option>

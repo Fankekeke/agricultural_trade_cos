@@ -46,7 +46,7 @@ public class AddressInfoController {
     }
 
     /**
-     * 分页获取技师地址信息
+     * 分页获取批发商地址信息
      *
      * @param page        分页对象
      * @param addressInfo 收货地址信息
@@ -94,9 +94,9 @@ public class AddressInfoController {
     }
 
     /**
-     * 根据技师获取收货地址
+     * 根据批发商获取收货地址
      *
-     * @param staffId 技师ID
+     * @param staffId 批发商ID
      * @return 结果
      */
     @GetMapping("/listByStaffId/{staffId}")
@@ -134,7 +134,7 @@ public class AddressInfoController {
      */
     @PostMapping("/saveByStaff")
     public R saveByStaff(AddressInfo addressInfo) {
-        // 获取所属技师
+        // 获取所属批发商
         StaffInfo staffInfo = staffInfoService.getOne(Wrappers.<StaffInfo>lambdaQuery().eq(StaffInfo::getUserId, addressInfo.getStaffId()));
         if (staffInfo != null) {
             addressInfo.setStaffId(staffInfo.getId());

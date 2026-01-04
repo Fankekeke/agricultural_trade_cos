@@ -110,7 +110,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
      * 订单分配，并通过邮箱向用户发送接单通知。
      *
      * @param orderId 订单ID
-     * @param staffId 技师ID
+     * @param staffId 批发商ID
      * @return 如果接单操作成功则返回true，否则返回false
      */
     @Override
@@ -172,7 +172,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         // 订单信息
         OrderInfo orderInfo = this.getById(staffIncome.getOrderId());
         result.put("order", orderInfo);
-        // 技师信息
+        // 批发商信息
         StaffInfo staffInfo = staffInfoService.getById(staffIncome.getStaffId());
         result.put("staff", staffInfo);
         // 用户信息
@@ -208,7 +208,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         WithdrawInfo withdrawInfo = withdrawInfoService.getById(withdrawId);
         result.put("withdraw", withdrawInfo);
 
-        // 技师信息
+        // 批发商信息
         StaffInfo staffInfo = staffInfoService.getById(withdrawInfo.getStaffId());
         result.put("staff", staffInfo);
         return result;
@@ -261,7 +261,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         staffIncome.setTotalPrice(order.getAfterOrderPrice());
         staffIncomeService.save(staffIncome);
 
-        // 更新技师收益
+        // 更新批发商收益
         StaffInfo staffInfo = staffInfoService.getById(order.getStaffIds());
         staffInfo.setPrice(NumberUtil.add(staffInfo.getPrice(), staffIncome.getTotalPrice()));
         staffInfoService.updateById(staffInfo);
@@ -318,13 +318,13 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean auditWithdraw(WithdrawInfo withdrawInfo) throws FebsException {
-        // 技师信息
+        // 批发商信息
         StaffInfo staffInfo = staffInfoService.getById(withdrawInfo.getStaffId());
 
         if (withdrawInfo.getWithdrawPrice().compareTo(staffInfo.getPrice()) > 0) {
-            throw new FebsException("技师余额不足");
+            throw new FebsException("批发商余额不足");
         }
-        // 更新技师余额
+        // 更新批发商余额
         if ("1".equals(withdrawInfo.getStatus())) {
             BigDecimal staffPrice = NumberUtil.sub(staffInfo.getPrice(), withdrawInfo.getWithdrawPrice());
             staffInfo.setPrice(staffPrice);
@@ -389,7 +389,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         AddressInfo endAddress = addressInfoService.getById(orderInfo.getEndAddressId());
         result.put("endAddress", endAddress);
 
-        // 技师信息
+        // 批发商信息
         if (StrUtil.isNotEmpty(orderInfo.getStaffIds())) {
             StaffInfo staffInfo = staffInfoService.getById(orderInfo.getStaffIds());
             result.put("staff", staffInfo);
@@ -438,7 +438,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         AddressInfo endAddress = addressInfoService.getById(orderInfo.getEndAddressId());
         result.put("endAddress", endAddress);
 
-        // 技师信息
+        // 批发商信息
         if (StrUtil.isNotEmpty(orderInfo.getStaffIds())) {
             StaffInfo staffInfo = staffInfoService.getById(orderInfo.getStaffIds());
             result.put("staff", staffInfo);
@@ -457,9 +457,9 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     }
 
     /**
-     * 技师获取统计信息
+     * 批发商获取统计信息
      *
-     * @param userId 技师ID
+     * @param userId 批发商ID
      * @return 结果
      */
     @Override
@@ -474,7 +474,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
             }
         };
 
-        // 技师信息
+        // 批发商信息
         StaffInfo staffInfo = staffInfoService.getOne(Wrappers.<StaffInfo>lambdaQuery().eq(StaffInfo::getUserId, userId));
 
         List<OrderInfo> orderInfoList = this.list(Wrappers.<OrderInfo>lambdaQuery().eq(OrderInfo::getStaffIds, staffInfo.getId()).ne(OrderInfo::getStatus, "0"));

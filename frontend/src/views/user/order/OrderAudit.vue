@@ -109,7 +109,7 @@
           <a-table bordered :columns="columns" :data-source="orderItemInfo"></a-table>
         </a-col>
         <a-col :span="6">
-          <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">选择技师</span></a-col>
+          <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">选择批发商</span></a-col>
           <a-select v-model="staffId" style="width: 100%;">
             <a-select-option v-for="(item, index) in staffList" :value="item.id" :key="index">{{ item.name }}</a-select-option>
           </a-select>
@@ -139,15 +139,15 @@
     <br/>
     <div style="font-size: 13px;font-family: SimHei" v-if="staffInfo !== null">
       <a-row style="padding-left: 24px;padding-right: 24px;">
-        <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">技师信息</span></a-col>
-        <a-col :span="6"><b>技师姓名：</b>
+        <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">批发商信息</span></a-col>
+        <a-col :span="6"><b>批发商姓名：</b>
           {{ staffInfo.name }}
         </a-col>
         <a-col :span="6"><b>性别：</b>
           <span v-if="orderInfo.type === '1'">男</span>
           <span v-if="orderInfo.type === '2'">女</span>
         </a-col>
-        <a-col :span="6"><b>技师工号：</b>
+        <a-col :span="6"><b>批发商工号：</b>
           {{ staffInfo.code }}
         </a-col>
       </a-row>
@@ -284,7 +284,7 @@ export default {
     },
     checkDealer () {
       if (this.staffId === null) {
-        this.$message.warn('请选择技师工')
+        this.$message.warn('请选择批发商工')
         return false
       }
       this.$get(`/cos/order-info/checkDealer`, {orderCode: this.orderInfo.code, staffId: this.staffId}).then((r) => {

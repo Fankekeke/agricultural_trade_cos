@@ -40,7 +40,7 @@
         ai.create_date desc
     </select>
 
-    <!-- 分页获取技师地址信息 -->
+    <!-- 分页获取批发商地址信息 -->
     <select id="queryAddressPageByStaff" resultType="java.util.LinkedHashMap">
         select
         ai.id,

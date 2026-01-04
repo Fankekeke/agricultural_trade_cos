@@ -15,7 +15,7 @@
             </a-col>
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="技师姓名"
+                label="批发商姓名"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
                 <a-input v-model="queryParams.staffName"/>
@@ -121,7 +121,7 @@ export default {
     }),
     columns () {
       return [{
-        title: '技师编号',
+        title: '批发商编号',
         dataIndex: 'staffCode',
         customRender: (text, row, index) => {
           if (text !== null) {
@@ -132,7 +132,7 @@ export default {
         },
         ellipsis: true
       }, {
-        title: '技师姓名',
+        title: '批发商姓名',
         dataIndex: 'staffName',
         customRender: (text, row, index) => {
           if (text !== null) {

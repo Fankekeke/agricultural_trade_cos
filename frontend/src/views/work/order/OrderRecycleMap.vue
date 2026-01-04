@@ -268,15 +268,15 @@
                 <br/>
                 <div style="font-size: 13px;font-family: SimHei" v-if="staffInfo !== null">
                   <a-row style="padding-left: 24px;padding-right: 24px;">
-                    <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">技师信息</span></a-col>
-                    <a-col :span="8"><b>技师姓名：</b>
+                    <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">批发商信息</span></a-col>
+                    <a-col :span="8"><b>批发商姓名：</b>
                       {{ staffInfo.name }}
                     </a-col>
                     <a-col :span="8"><b>性别：</b>
                       <span v-if="staffInfo.sex == '1'">男</span>
                       <span v-if="staffInfo.sex == '2'">女</span>
                     </a-col>
-                    <a-col :span="8"><b>技师工号：</b>
+                    <a-col :span="8"><b>批发商工号：</b>
                       {{ staffInfo.code }}
                     </a-col>
                   </a-row>
@@ -443,7 +443,7 @@ export default {
           id: 1,
           time: '2025-11-20 09:30',
           title: '订单确认',
-          description: '技师已确认订单，准备开始维修工作',
+          description: '批发商已确认订单，准备开始维修工作',
           status: 'completed' // completed, in-progress, pending
         },
         {
