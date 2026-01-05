@@ -52,7 +52,7 @@ export default {
   min-height: 100vh;
   background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
   url(../../../static/img/house.jpg) no-repeat center center;
-  background-size: cover;
+  background-size: contain;
 
   .content-wrapper {
     flex: 1;

@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
- * 收获地址管理
+ * 地址管理
  *
  * @author FanK
  */
