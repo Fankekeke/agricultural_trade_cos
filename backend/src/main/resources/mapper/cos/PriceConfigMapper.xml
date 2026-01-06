@@ -2,4 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cc.mrbird.febs.cos.dao.PriceConfigMapper">
 
+    <!-- 分页获取品类信息 -->
+    <select id="selectPriceConfigPage" resultType="java.util.LinkedHashMap">
+        SELECT
+            id,
+            category,
+            start_price,
+            daily_ratio,
+            create_date
+        FROM
+            price_config
+        WHERE
+            1 = 1
+        <if test="queryParam.category != null and queryParam.category != ''">
+            AND category LIKE CONCAT('%',#{queryParam.category},'%')
+        </if>
+        ORDER BY
+            create_date DESC
+    </select>
 </mapper>

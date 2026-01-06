@@ -2,6 +2,7 @@ package cc.mrbird.febs.cos.entity;
 
 import java.math.BigDecimal;
 import java.io.Serializable;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -33,5 +34,9 @@ public class PriceConfig implements Serializable {
      */
     private BigDecimal dailyRatio;
 
+    /**
+     * 创建时间
+     */
+    private BigDecimal createDate;
 
 }

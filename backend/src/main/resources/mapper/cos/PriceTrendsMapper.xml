@@ -2,4 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cc.mrbird.febs.cos.dao.PriceTrendsMapper">
 
+    <!-- 分页获取价格记录信息 -->
+    <select id="queryPriceTrendsPage" resultType="java.util.LinkedHashMap">
+        SELECT
+        id,
+        record_date,
+        category,
+        price
+        FROM
+        price_trends
+        WHERE
+        1 = 1
+        <if test="queryParam.category != null and queryParam.category != ''">
+            AND category LIKE CONCAT('%',#{queryParam.category},'%')
+        </if>
+    </select>
 </mapper>
