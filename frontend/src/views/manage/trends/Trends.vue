@@ -126,37 +126,19 @@ export default {
         dataIndex: 'category',
         ellipsis: true
       }, {
-        title: '价格记录内容',
-        dataIndex: 'content',
-        scopedSlots: { customRender: 'contentShow' },
-        ellipsis: true
-      }, {
-        title: '发布时间',
-        dataIndex: 'createDate',
+        title: '价格',
+        dataIndex: 'price',
         customRender: (text, row, index) => {
           if (text !== null) {
-            return text
+            return text + '/千克'
           } else {
             return '- -'
           }
         },
         ellipsis: true
       }, {
-        title: '上下架',
-        dataIndex: 'type',
-        customRender: (text, row, index) => {
-          switch (text) {
-            case 1:
-              return <a-tag>上架</a-tag>
-            case 2:
-              return <a-tag>下架</a-tag>
-            default:
-              return '- -'
-          }
-        }
-      }, {
-        title: '上传人',
-        dataIndex: 'publisher',
+        title: '记录时间',
+        dataIndex: 'recordDate',
         customRender: (text, row, index) => {
           if (text !== null) {
             return text
