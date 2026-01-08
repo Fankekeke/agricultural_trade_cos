@@ -144,7 +144,7 @@ export default {
             case '1':
               return <a-tag color="#48ad20">用户</a-tag>
             case '2':
-              return <a-tag color="#2eabff">维修人员</a-tag>
+              return <a-tag color="#2eabff">批发商</a-tag>
             default:
               return '- -'
           }

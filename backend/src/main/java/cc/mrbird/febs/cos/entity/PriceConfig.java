@@ -42,6 +42,6 @@ public class PriceConfig implements Serializable {
     /**
      * 创建时间
      */
-    private BigDecimal createDate;
+    private String createDate;
 
 }

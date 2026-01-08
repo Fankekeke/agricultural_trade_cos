@@ -110,8 +110,8 @@
                       <span v-if="orderData.fixDifficulty == 3">复杂</span>
                     </a-col>
                     <a-col :span="8"><b>订单类型：</b>
-                      <span v-if="orderData.orderType == 1">维修</span>
-                      <span v-if="orderData.orderType == 2">回收</span>
+                      <span v-if="orderData.orderType == 1">直供</span>
+                      <span v-if="orderData.orderType == 2">集采</span>
                     </a-col>
                   </a-row>
                   <br/>

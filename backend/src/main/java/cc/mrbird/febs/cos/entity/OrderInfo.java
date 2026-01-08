@@ -186,12 +186,12 @@ public class OrderInfo implements Serializable {
     private BigDecimal integral;
 
     /**
-     * 订单类型（1.维修 2.回收）
+     * 订单类型（1.直供 2.集采）
      */
     private String orderType;
 
     /**
-     * 订单方式（1.上门维修回收 2.邮寄）
+     * 订单方式（1.上门 2.邮寄）
      */
     private String orderMethod;
 

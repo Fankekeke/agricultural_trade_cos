@@ -2,50 +2,20 @@
   <div style="background: linear-gradient(135deg, #fdfdfd 0%, #d7d7d7 100%); margin-bottom: 30px; min-height: 100vh;">
     <div>
       <div style="padding: 20px;">
-        <div style="font-size: 36px; font-weight: 600; color: #5d4037; font-family: 'STSong', SimHei; text-align: center; margin-bottom: 10px;">
-          老商品回收与修复
-        </div>
-        <div style="font-size: 20px; font-weight: 500; color: #8d6e63; font-family: 'STSong', SimHei; text-align: center; margin-bottom: 20px;">
-          上传商品图片分析
-        </div>
         <div>
           <a-card
             :bordered="false"
             hoverable
             style="height: 100%; border-radius: 15px; box-shadow: 0 8px 16px rgba(121, 85, 72, 0.2);">
             <a-row style="margin: 0 auto" :gutter="20">
-              <a-col :span="12">
-                <a-upload-dragger
-                  name="avatar"
-                  :multiple="true"
-                  accept=".png, .jpg"
-                  action="http://127.0.0.1:9527/cos/ai/recognitionImage"
-                  @change="aiHandleChange"  style="border-radius: 10px; background-color: #fffcf5;"
-                >
-                  <p class="ant-upload-drag-icon">
-                    <a-icon type="camera" theme="twoTone" twoToneColor="#8d6e63" style="font-size: 48px;" />
-                  </p>
-                  <p class="ant-upload-text" style="font-size: 18px; color: #5d4037; font-weight: 500;">
-                    点击或拖拽图片到此区域上传
-                  </p>
-                  <p class="ant-upload-hint" style="color: #8d6e63;">
-                    支持PNG、JPG格式图片，用于识别老商品类型
-                  </p>
-                </a-upload-dragger>
-                <!-- AI识别结果展示区域 -->
-                <div class="external-script-placeholder" data-src="https://example.com/dynamic-widget.js"></div>
-                <div v-if="showAiResult && aiRecognitionResult"
-                     style="margin-top: 20px; padding: 15px; background: #fffaf0; border-radius: 10px; border: 1px solid #e8e0d2;">
-                  <h3 style="color: #5d4037; margin-bottom: 15px; text-align: center;">AI识别结果</h3>
-                  <div style="background: white; padding: 15px; border-radius: 8px; border: 1px solid #e0d6cc; max-height: 500px; overflow-y: auto;">
-                    <div class="markdown-content" v-html="renderMarkdown(aiRecognitionResult)"></div>
-                  </div>
-                </div>
+              <a-col :span="12" style="margin-top: 65px;text-align: center">
+                <img alt="example" style="width: 500px;height: 500px;" src="/static/img/Search_SVG.png"/>
               </a-col>
               <a-col :span="12">
+                <p style="font-size: 30px;font-family: SimHei;font-weight: 500">发布农产订单</p>
                 <a-row>
                   <a-col :span="24" style="font-size: 15px;font-family: SimHei;" v-if="nextFlag == 1">
-                    <div style="background: #f8f6f4; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(121, 85, 72, 0.1);">
+                    <div style="background: #f8f6f4; padding: 20px; border-radius: 10px; ">
                       <a-form :form="form" layout="vertical">
                         <a-row :gutter="20">
                           <a-col :span="6">
@@ -73,40 +43,13 @@
                             </a-form-item>
                           </a-col>
                           <a-col :span="6">
-                            <a-form-item label='商品高度' v-bind="formItemLayout">
-                              <a-input-number style="width: 100%" v-decorator="[
-                              'height',
-                              { rules: [{ required: true, message: '请输入商品高度!' }] }
-                              ]" :min="0.1" :step="0.1"/>
-                            </a-form-item>
-                          </a-col>
-                          <a-col :span="6">
-                            <a-form-item label='商品宽度' v-bind="formItemLayout">
-                              <a-input-number style="width: 100%" v-decorator="[
-                              'width',
-                              { rules: [{ required: true, message: '请输入商品宽度!' }] }
-                              ]" :min="0.1" :step="0.1"/>
-                            </a-form-item>
-                          </a-col>
-                          <a-col :span="6">
                             <a-form-item label='订单类型' v-bind="formItemLayout">
                               <a-select v-decorator="[
         'orderType',
         { rules: [{ required: true, message: '请选择订单类型!' }] }
         ]">
-                                <a-select-option value="1">维修</a-select-option>
-                                <a-select-option value="2">回收</a-select-option>
-                              </a-select>
-                            </a-form-item>
-                          </a-col>
-
-                          <!-- 修复难度 -->
-                          <a-col :span="6" v-if="form.getFieldValue('orderType') === '1'">
-                            <a-form-item label='修复难度' v-bind="formItemLayout">
-                              <a-select v-decorator="['fixDifficulty']">
-                                <a-select-option value="1">轻度</a-select-option>
-                                <a-select-option value="2">中度</a-select-option>
-                                <a-select-option value="3">复杂</a-select-option>
+                                <a-select-option value="1">直供</a-select-option>
+                                <a-select-option value="2">集采</a-select-option>
                               </a-select>
                             </a-form-item>
                           </a-col>
@@ -147,16 +90,7 @@
                             </a-form-item>
                           </a-col>
                           <a-col :span="24"></a-col>
-                          <!-- 瑕疵描述 -->
-                          <a-col :span="12">
-                            <a-form-item label='瑕疵描述' v-bind="formItemLayout">
-                              <a-textarea
-                                :rows="3"
-                                v-decorator="['flawContent']"
-                                placeholder="请详细描述商品的瑕疵情况"/>
-                            </a-form-item>
-                          </a-col>
-                          <a-col :span="12">
+                          <a-col :span="24">
                             <a-form-item label='商品描述' v-bind="formItemLayout">
                               <a-textarea :rows="3" v-decorator="[
                               'content',
@@ -208,33 +142,11 @@
                               </a-modal>
                             </a-form-item>
                           </a-col>
-                          <a-col :span="24">
-                            <a-form-item label='瑕疵图片' v-bind="formItemLayout">
-                              <a-upload
-                                name="avatar"
-                                action="http://127.0.0.1:9527/file/fileUpload/"
-                                list-type="picture-card"
-                                :file-list="flawFileList"
-                                @preview="handlePreviewFlaw"
-                                @change="picHandleChangeFlaw"
-                              >
-                                <div v-if="flawFileList.length < 8">
-                                  <a-icon type="plus" />
-                                  <div class="ant-upload-text">
-                                    Upload
-                                  </div>
-                                </div>
-                              </a-upload>
-                              <a-modal :visible="previewVisibleFlaw" :footer="null" @cancel="handleCancelFlaw">
-                                <img alt="example" style="width: 100%" :src="previewImageFlaw" />
-                              </a-modal>
-                            </a-form-item>
-                          </a-col>
                         </a-row>
                         <div style="text-align: center; margin-top: 20px;">
                           <a-button
                             type="primary"
-                            @click="fetch"        style="border-radius: 20px; background: linear-gradient(45deg, #8d6e63, #a1887f); border: none; padding: 0 40px; height: 40px;"
+                            @click="fetch"        style="border-radius: 20px;  border: none; padding: 0 40px; height: 40px;"
                           >
                             发布
                           </a-button>

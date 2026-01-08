@@ -68,8 +68,8 @@
       <br/>
       <a-row style="padding-left: 24px;padding-right: 24px;">
         <a-col :span="6"><b>订单类型：</b>
-          <span v-if="orderData.orderType == 1">维修</span>
-          <span v-if="orderData.orderType == 2">回收</span>
+          <span v-if="orderData.orderType == 1">直供</span>
+          <span v-if="orderData.orderType == 2">集采</span>
         </a-col>
         <a-col :span="6"><b>订单方式：</b>
           <span v-if="orderData.orderMethod == 1">上门</span>

@@ -16,6 +16,8 @@
         <if test="queryParam.category != null and queryParam.category != ''">
             AND category LIKE CONCAT('%',#{queryParam.category},'%')
         </if>
+        ORDER BY
+        record_date DESC
     </select>
 
     <!-- 获取指定品类的历史价格数据（最近14天） -->

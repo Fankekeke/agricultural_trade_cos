@@ -39,8 +39,8 @@
 
               <div style="margin-bottom: 8px; display: flex; flex-wrap: wrap; gap: 8px;">
                 <a-tag color="blue">{{ item.goodsType }}</a-tag>
-                <a-tag v-if="item.orderType == 1" color="orange">维修</a-tag>
-                <a-tag v-if="item.orderType == 2" color="purple">回收</a-tag>
+                <a-tag v-if="item.orderType == 1" color="orange">直供</a-tag>
+                <a-tag v-if="item.orderType == 2" color="purple">集采</a-tag>
                 <a-tag v-if="item.orderMethod == 1" color="cyan">上门</a-tag>
                 <a-tag v-if="item.orderMethod == 2" color="volcano">邮寄</a-tag>
               </div>

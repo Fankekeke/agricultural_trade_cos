@@ -264,9 +264,9 @@ export default {
         customRender: (text, row, index) => {
           switch (text) {
             case '1':
-              return <a-tag>维修</a-tag>
+              return <a-tag>直供</a-tag>
             case '2':
-              return <a-tag>回收</a-tag>
+              return <a-tag>集采</a-tag>
             default:
               return '- -'
           }
