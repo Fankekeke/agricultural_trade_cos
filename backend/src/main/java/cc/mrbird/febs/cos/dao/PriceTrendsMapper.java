@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * @author FanK
@@ -21,4 +22,12 @@ public interface PriceTrendsMapper extends BaseMapper<PriceTrends> {
      * @return 结果
      */
     IPage<LinkedHashMap<String, Object>> queryPriceTrendsPage(Page<PriceTrends> page, @Param("queryParam") PriceTrends priceTrends);
+
+    /**
+     * 获取指定品类的历史价格数据（最近14天）
+     *
+     * @param category 品类
+     * @return 历史价格数据
+     */
+    List<LinkedHashMap<String, Object>> getHistoryPriceData(@Param("category") String category);
 }

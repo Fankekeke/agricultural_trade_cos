@@ -7,7 +7,7 @@
           <div :class="advanced ? null: 'fold'">
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="物件编号"
+                label="商品编号"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
                 <a-input v-model="queryParams.code"/>
@@ -15,7 +15,7 @@
             </a-col>
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="物件名称"
+                label="商品名称"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
                 <a-input v-model="queryParams.name"/>
@@ -118,13 +118,13 @@ export default {
     }),
     columns () {
       return [{
-        title: '物件编号',
+        title: '商品编号',
         dataIndex: 'code'
       }, {
-        title: '物件名称',
+        title: '商品名称',
         dataIndex: 'name'
       }, {
-        title: '物件图片',
+        title: '商品图片',
         dataIndex: 'images',
         customRender: (text, record, index) => {
           if (!record.images) return <a-avatar shape="square" icon="user" />
@@ -136,7 +136,7 @@ export default {
           </a-popover>
         }
       }, {
-        title: '物件描述',
+        title: '商品描述',
         dataIndex: 'content',
         scopedSlots: {customRender: 'contentShow'}
       }, {
@@ -187,7 +187,7 @@ export default {
         userId: this.currentUser.userId,
         integral: row.integral
       }).then((r) => {
-        this.$message.success('兑换物件成功')
+        this.$message.success('兑换商品成功')
         this.selectDetailByUserId()
         this.fetch()
       })
@@ -211,7 +211,7 @@ export default {
     },
     handlematerialAddSuccess () {
       this.materialAdd.visiable = false
-      this.$message.success('新增物件成功')
+      this.$message.success('新增商品成功')
       this.search()
     },
     edit (record) {
@@ -223,7 +223,7 @@ export default {
     },
     handlematerialEditSuccess () {
       this.materialEdit.visiable = false
-      this.$message.success('修改物件成功')
+      this.$message.success('修改商品成功')
       this.search()
     },
     handleDeptChange (value) {

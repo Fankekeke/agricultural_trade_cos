@@ -14,10 +14,10 @@ import java.util.LinkedHashMap;
 public interface MaterialInfoMapper extends BaseMapper<MaterialInfo> {
 
     /**
-     * 分页获取物品积分信息
+     * 分页获取商品积分信息
      *
      * @param page        分页对象
-     * @param materialInfo 物品积分信息
+     * @param materialInfo 商品积分信息
      * @return 结果
      */
     IPage<LinkedHashMap<String, Object>> selectMaterialPage(Page<MaterialInfo> page, @Param("materialInfo") MaterialInfo materialInfo);

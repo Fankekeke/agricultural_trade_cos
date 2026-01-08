@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
- * 物品积分
+ * 商品积分
  *
  * @author FanK
  */
@@ -29,14 +29,14 @@ public class MaterialInfo implements Serializable {
     private Integer id;
 
     /**
-     * 物品名称
+     * 商品名称
      */
     private String name;
 
     private String code;
 
     /**
-     * 物品介绍
+     * 商品介绍
      */
     private String content;
 

@@ -30,7 +30,7 @@ public class ExchangeInfo implements Serializable {
     private Integer id;
 
     /**
-     * 物品ID
+     * 商品ID
      */
     private Integer materialId;
 

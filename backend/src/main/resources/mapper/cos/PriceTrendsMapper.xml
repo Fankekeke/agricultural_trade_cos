@@ -17,4 +17,22 @@
             AND category LIKE CONCAT('%',#{queryParam.category},'%')
         </if>
     </select>
+
+    <!-- 获取指定品类的历史价格数据（最近14天） -->
+    <select id="getHistoryPriceData" resultType="java.util.LinkedHashMap">
+        SELECT
+            DATE_FORMAT(date_series.date, '%Y-%m-%d') as date,
+        COALESCE(AVG(pt.price), 0) as price
+        FROM (
+            SELECT DATE_SUB(CURDATE(), INTERVAL (a.a + (10 * b.a)) DAY) as date
+            FROM (SELECT 0 as a UNION ALL SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9) as a
+            CROSS JOIN (SELECT 0 as a UNION ALL SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9) as b
+            ORDER BY date DESC
+            LIMIT 14
+            ) as date_series
+            LEFT JOIN price_trends pt ON DATE_FORMAT(pt.record_date, '%Y-%m-%d') = DATE_FORMAT(date_series.date, '%Y-%m-%d')
+            AND pt.category = '牛肉'
+        GROUP BY DATE_FORMAT(date_series.date, '%Y-%m-%d')
+        ORDER BY date_series.date ASC
+    </select>
 </mapper>

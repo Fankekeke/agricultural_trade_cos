@@ -299,7 +299,7 @@ public class OrderInfoController {
         orderInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
         orderInfo.setStatus("0");
         orderInfo.setCode("ORD-" + System.currentTimeMillis());
-        // 针对物件名称进行分词
+        // 针对农产品名称进行分词
         TokenizerEngine engine = TokenizerUtil.createEngine();
         //解析文本
         Result result = engine.parse(orderInfo.getOrderName());

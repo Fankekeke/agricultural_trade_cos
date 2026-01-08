@@ -25,14 +25,14 @@
                     <a-icon type="smile" theme="twoTone" style="font-size: 80px"/>
                     <p v-if="orderInfo.status == 0" style="font-size: 20px;margin-top: 15px;margin-bottom: 15px">等待报价中！</p>
                     <p v-if="orderInfo.status == 1" style="font-size: 20px;margin-top: 15px;margin-bottom: 15px">已确认，等待订单支付！</p>
-                    <p v-if="orderInfo.status == 2" style="font-size: 20px;margin-top: 15px;margin-bottom: 15px">维修回收中！</p>
+                    <p v-if="orderInfo.status == 2" style="font-size: 20px;margin-top: 15px;margin-bottom: 15px">采购中！</p>
                     <p v-if="orderInfo.status == 3" style="font-size: 20px;margin-top: 15px;margin-bottom: 15px">订单已完成！</p>
                   </div>
                   <div style="padding-left: 24px;padding-right: 24px;margin-bottom: 50px;margin-top: 50px" v-if="orderInfo != null">
                     <a-steps :current="orderInfo.status" progress-dot size="small">
                       <a-step title="等待报价" />
                       <a-step title="未支付" />
-                      <a-step title="维修回收中" />
+                      <a-step title="采购中" />
                       <a-step title="已完成" />
                     </a-steps>
                   </div>
@@ -111,19 +111,19 @@
                       <span v-if="orderData.orderMethod == 1">上门</span>
                       <span v-if="orderData.orderMethod == 2">邮寄</span>
                     </a-col>
-                    <a-col :span="8"><b>物件类型：</b>
+                    <a-col :span="8"><b>商品类型：</b>
                       {{ orderInfo.goodsType ? orderInfo.goodsType : '- -' }}
                     </a-col>
-                    <a-col :span="8"><b>物件重量：</b>
+                    <a-col :span="8"><b>商品重量：</b>
                       {{ orderInfo.weight ? orderInfo.weight : '- -' }}KG
                     </a-col>
                   </a-row>
                   <br/>
                   <a-row style="padding-left: 24px;padding-right: 24px;">
-                    <a-col :span="8"><b>物件高度：</b>
+                    <a-col :span="8"><b>商品高度：</b>
                       {{ orderInfo.height ? orderInfo.height : '- -' }}厘米
                     </a-col>
-                    <a-col :span="8"><b>物件宽度：</b>
+                    <a-col :span="8"><b>商品宽度：</b>
                       {{ orderInfo.width ? orderInfo.width : '- -' }}厘米
                     </a-col>
                   </a-row>
@@ -131,21 +131,21 @@
                 <br/>
                 <br/>
                 <a-row style="padding-left: 24px;padding-right: 24px;">
-                  <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">物件描述</span></a-col>
+                  <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">商品描述</span></a-col>
                   <a-col :span="24">
                     {{ orderData.content ? orderData.content : '- -' }}
                   </a-col>
                 </a-row>
                 <br/>
                 <a-row style="padding-left: 24px;padding-right: 24px;">
-                  <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">物件瑕疵</span></a-col>
+                  <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">商品瑕疵</span></a-col>
                   <a-col :span="24">
                     {{ orderData.flawContent ? orderData.flawContent : '- -' }}
                   </a-col>
                 </a-row>
                 <br/>
                 <a-row style="padding-left: 24px;padding-right: 24px;">
-                  <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">物件图册</span></a-col>
+                  <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">商品图册</span></a-col>
                   <a-col :span="24">
                     <a-upload
                       name="avatar"
@@ -192,7 +192,7 @@
                 <br/>
                 <div style="font-size: 13px;font-family: SimHei" v-if="startAddressInfo !== null">
                   <a-row style="padding-left: 24px;padding-right: 24px;">
-                    <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">物件地址</span></a-col>
+                    <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">商品地址</span></a-col>
                     <a-col :span="24"><b>详细地址：</b>
                       {{ startAddressInfo.address }}
                     </a-col>
@@ -393,7 +393,7 @@
             </a-col>
 <!--            <a-col :span="24" v-else style="margin-top: 15px;background: #fff;padding: 20px">-->
 <!--              <h3 style="font-size: 18px; font-weight: 650; color: #000c17; margin-bottom: 20px; border-left: 4px solid #1890ff; padding-left: 10px;">-->
-<!--                修复流程-->
+<!--                生命周期-->
 <!--              </h3>-->
 <!--              <a-timeline style="margin-top: 20px;">-->
 <!--                <a-timeline-item-->
@@ -486,7 +486,7 @@ export default {
           id: 2,
           time: '202511-20 14:15',
           title: '检测评估',
-          description: '完成物品检测，制定维修方案',
+          description: '完成商品检测，制定维修方案',
           status: 'completed'
         }
       ],

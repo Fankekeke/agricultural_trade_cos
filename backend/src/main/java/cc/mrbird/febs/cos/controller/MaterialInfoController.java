@@ -24,10 +24,10 @@ public class MaterialInfoController {
     private final IMaterialInfoService materialInfoService;
 
     /**
-     * 分页获取物品积分信息
+     * 分页获取商品积分信息
      *
      * @param page        分页对象
-     * @param materialInfo 物品积分信息
+     * @param materialInfo 商品积分信息
      * @return 结果
      */
     @GetMapping("/page")
@@ -36,7 +36,7 @@ public class MaterialInfoController {
     }
 
     /**
-     * 获取ID获取物品积分详情
+     * 获取ID获取商品积分详情
      *
      * @param id 主键
      * @return 结果
@@ -47,7 +47,7 @@ public class MaterialInfoController {
     }
 
     /**
-     * 获取物品积分信息列表
+     * 获取商品积分信息列表
      *
      * @return 结果
      */
@@ -57,9 +57,9 @@ public class MaterialInfoController {
     }
 
     /**
-     * 新增物品积分信息
+     * 新增商品积分信息
      *
-     * @param materialInfo 物品积分信息
+     * @param materialInfo 商品积分信息
      * @return 结果
      */
     @PostMapping
@@ -70,9 +70,9 @@ public class MaterialInfoController {
     }
 
     /**
-     * 修改物品积分信息
+     * 修改商品积分信息
      *
-     * @param materialInfo 物品积分信息
+     * @param materialInfo 商品积分信息
      * @return 结果
      */
     @PutMapping
@@ -81,10 +81,10 @@ public class MaterialInfoController {
     }
 
     /**
-     * 删除物品积分信息
+     * 删除商品积分信息
      *
      * @param ids ids
-     * @return 物品积分信息
+     * @return 商品积分信息
      */
     @DeleteMapping("/{ids}")
     public R deleteByIds(@PathVariable("ids") List<Integer> ids) {

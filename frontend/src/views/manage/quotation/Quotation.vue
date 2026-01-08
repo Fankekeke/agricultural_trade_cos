@@ -23,7 +23,7 @@
             </a-col>
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="物件名称"
+                label="商品名称"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
                 <a-input v-model="queryParams.orderName"/>
@@ -156,7 +156,7 @@ export default {
         },
         ellipsis: true
       }, {
-        title: '物件名称',
+        title: '商品名称',
         dataIndex: 'orderName',
         customRender: (text, row, index) => {
           if (text !== null) {
@@ -167,7 +167,7 @@ export default {
         },
         ellipsis: true
       }, {
-        title: '物件类型',
+        title: '商品类型',
         dataIndex: 'goodsType',
         customRender: (text, row, index) => {
           if (text !== null) {
@@ -178,7 +178,7 @@ export default {
         },
         ellipsis: true
       }, {
-        title: '物件图片',
+        title: '商品图片',
         dataIndex: 'materialImages',
         customRender: (text, record, index) => {
           if (!record.images) return <a-avatar shape="square" icon="user" />

@@ -21,4 +21,12 @@ public interface IPriceTrendsService extends IService<PriceTrends> {
      * @return 结果
      */
     IPage<LinkedHashMap<String, Object>> queryPriceTrendsPage(Page<PriceTrends> page, PriceTrends priceTrends);
+
+    /**
+     * 查询品类价格走势
+     *
+     * @param category 品类
+     * @return 结果
+     */
+    LinkedHashMap<String, Object> queryCategoryTrend(String category);
 }

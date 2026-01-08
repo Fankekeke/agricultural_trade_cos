@@ -1,5 +1,5 @@
 <template>
-  <a-modal v-model="show" title="新增价格记录" @cancel="onClose" :width="800">
+  <a-modal v-model="show" title="新增价格记录" @cancel="onClose" :width="500">
     <template slot="footer">
       <a-button key="back" @click="onClose">
         取消
@@ -10,20 +10,36 @@
     </template>
     <a-form :form="form" layout="vertical">
       <a-row :gutter="20">
-        <a-col :span="12">
-          <a-form-item label='上传人' v-bind="formItemLayout">
-            <a-input v-decorator="[
-            'publisher',
-            { rules: [{ required: true, message: '请输入上传人!' }] }
-            ]"/>
+        <a-col :span="24">
+          <a-form-item label='记录品类' v-bind="formItemLayout">
+            <a-select
+              v-decorator="['category', { rules: [{ required: true, message: '请选择记录品类' }] }]"
+              placeholder="请选择记录品类"
+            >
+              <a-select-option
+                v-for="category in categoryList"
+                :key="category.id"
+                :value="category.category"
+              >
+                {{ category.category }}
+              </a-select-option>
+            </a-select>
           </a-form-item>
         </a-col>
-        <a-col :span="12">
+        <a-col :span="24">
           <a-form-item label='记录价格' v-bind="formItemLayout">
             <a-input-number style="width: 100%" v-decorator="[
              'price',
              { rules: [{ required: true, message: '请输入记录价格!' }] }
              ]" :min="0.1" :step="0.1"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="24">
+          <a-form-item label='记录时间' v-bind="formItemLayout">
+            <a-date-picker v-decorator="[
+             'recordDate',
+             { rules: [{ required: true, message: '请选择记录时间!' }] }
+             ]" style="width: 100%"/>
           </a-form-item>
         </a-col>
       </a-row>
@@ -33,6 +49,8 @@
 
 <script>
 import {mapState} from 'vuex'
+import moment from 'moment'
+moment.locale('zh-cn')
 function getBase64 (file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
@@ -70,11 +88,20 @@ export default {
       form: this.$form.createForm(this),
       loading: false,
       fileList: [],
+      categoryList: [],
       previewVisible: false,
       previewImage: ''
     }
   },
+  mounted() {
+    this.queryCategoryList();
+  },
   methods: {
+    queryCategoryList () {
+      this.$get('/cos/price-config/list').then((r) => {
+        this.categoryList = r.data.data
+      })
+    },
     handleCancel () {
       this.previewVisible = false
     },
@@ -97,14 +124,11 @@ export default {
       this.$emit('close')
     },
     handleSubmit () {
-      // 获取图片List
-      let images = []
-      this.fileList.forEach(image => {
-        images.push(image.response)
-      })
       this.form.validateFields((err, values) => {
-        values.images = images.length > 0 ? images.join(',') : null
         if (!err) {
+          if (values.recordDate) {
+            values.recordDate = moment(values.recordDate).format('YYYY-MM-DD')
+          }
           this.loading = true
           this.$post('/cos/price-trends', {
             ...values

@@ -3,10 +3,10 @@
     <div>
       <div style="padding: 20px;">
         <div style="font-size: 36px; font-weight: 600; color: #5d4037; font-family: 'STSong', SimHei; text-align: center; margin-bottom: 10px;">
-          老物件回收与修复
+          老商品回收与修复
         </div>
         <div style="font-size: 20px; font-weight: 500; color: #8d6e63; font-family: 'STSong', SimHei; text-align: center; margin-bottom: 20px;">
-          上传物件图片分析
+          上传商品图片分析
         </div>
         <div>
           <a-card
@@ -29,7 +29,7 @@
                     点击或拖拽图片到此区域上传
                   </p>
                   <p class="ant-upload-hint" style="color: #8d6e63;">
-                    支持PNG、JPG格式图片，用于识别老物件类型
+                    支持PNG、JPG格式图片，用于识别老商品类型
                   </p>
                 </a-upload-dragger>
                 <!-- AI识别结果展示区域 -->
@@ -49,42 +49,42 @@
                       <a-form :form="form" layout="vertical">
                         <a-row :gutter="20">
                           <a-col :span="6">
-                            <a-form-item label='物件名称' v-bind="formItemLayout">
+                            <a-form-item label='商品名称' v-bind="formItemLayout">
                               <a-input v-decorator="[
                                 'orderName',
-                                { rules: [{ required: true, message: '请输入物件名称!' }] }
+                                { rules: [{ required: true, message: '请输入商品名称!' }] }
                                 ]"/>
                             </a-form-item>
                           </a-col>
                           <a-col :span="6">
-                            <a-form-item label='物件类型' v-bind="formItemLayout">
+                            <a-form-item label='商品类型' v-bind="formItemLayout">
                               <a-input v-decorator="[
                                 'goodsType',
-                                { rules: [{ required: true, message: '请输入物件类型!' }] }
+                                { rules: [{ required: true, message: '请输入商品类型!' }] }
                                 ]"/>
                             </a-form-item>
                           </a-col>
                           <a-col :span="6">
-                            <a-form-item label='物件重量' v-bind="formItemLayout">
+                            <a-form-item label='商品重量' v-bind="formItemLayout">
                               <a-input-number style="width: 100%" v-decorator="[
                               'weight',
-                              { rules: [{ required: true, message: '请输入物件重量!' }] }
+                              { rules: [{ required: true, message: '请输入商品重量!' }] }
                               ]" :min="0.1" :step="0.1"/>
                             </a-form-item>
                           </a-col>
                           <a-col :span="6">
-                            <a-form-item label='物件高度' v-bind="formItemLayout">
+                            <a-form-item label='商品高度' v-bind="formItemLayout">
                               <a-input-number style="width: 100%" v-decorator="[
                               'height',
-                              { rules: [{ required: true, message: '请输入物件高度!' }] }
+                              { rules: [{ required: true, message: '请输入商品高度!' }] }
                               ]" :min="0.1" :step="0.1"/>
                             </a-form-item>
                           </a-col>
                           <a-col :span="6">
-                            <a-form-item label='物件宽度' v-bind="formItemLayout">
+                            <a-form-item label='商品宽度' v-bind="formItemLayout">
                               <a-input-number style="width: 100%" v-decorator="[
                               'width',
-                              { rules: [{ required: true, message: '请输入物件宽度!' }] }
+                              { rules: [{ required: true, message: '请输入商品宽度!' }] }
                               ]" :min="0.1" :step="0.1"/>
                             </a-form-item>
                           </a-col>
@@ -153,19 +153,19 @@
                               <a-textarea
                                 :rows="3"
                                 v-decorator="['flawContent']"
-                                placeholder="请详细描述物件的瑕疵情况"/>
+                                placeholder="请详细描述商品的瑕疵情况"/>
                             </a-form-item>
                           </a-col>
                           <a-col :span="12">
-                            <a-form-item label='物件描述' v-bind="formItemLayout">
+                            <a-form-item label='商品描述' v-bind="formItemLayout">
                               <a-textarea :rows="3" v-decorator="[
                               'content',
-                               { rules: [{ required: true, message: '请输入物件描述!' }] }
+                               { rules: [{ required: true, message: '请输入商品描述!' }] }
                               ]"/>
                             </a-form-item>
                           </a-col>
                           <a-col :span="24">
-                            <a-form-item label='物件图片' v-bind="formItemLayout">
+                            <a-form-item label='商品图片' v-bind="formItemLayout">
                               <a-upload
                                 name="avatar"
                                 action="http://127.0.0.1:9527/file/fileUpload/"
@@ -187,7 +187,7 @@
                             </a-form-item>
                           </a-col>
                           <a-col :span="24">
-                            <a-form-item label='物件视频' v-bind="formItemLayout">
+                            <a-form-item label='商品视频' v-bind="formItemLayout">
                               <a-upload
                                 name="avatar"
                                 action="http://127.0.0.1:9527/file/fileUpload/"
@@ -353,7 +353,7 @@ export default {
           // 存储识别结果并在界面展示
           this.aiRecognitionResult = file.response.data
           this.showAiResult = true
-          this.$message.success('物件识别成功，请确认识别信息')
+          this.$message.success('商品识别成功，请确认识别信息')
 
           // 自动填充表单字段（如果有返回的数据）
           if (file.response.msg) {

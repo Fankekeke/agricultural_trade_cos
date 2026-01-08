@@ -231,7 +231,7 @@ export default {
         },
         ellipsis: true
       }, {
-        title: '物件图片',
+        title: '商品图片',
         dataIndex: 'images',
         customRender: (text, record, index) => {
           if (!record.images) return <a-avatar shape="square" icon="user" />
@@ -266,7 +266,7 @@ export default {
             case '1':
               return <a-tag>未支付</a-tag>
             case '2':
-              return <a-tag>维修回收中</a-tag>
+              return <a-tag>采购中</a-tag>
             case '3':
               return <a-tag color="green">已完成</a-tag>
             default:
@@ -274,7 +274,7 @@ export default {
           }
         }
       }, {
-        title: '物件描述',
+        title: '商品描述',
         dataIndex: 'content',
         ellipsis: true
       }, {

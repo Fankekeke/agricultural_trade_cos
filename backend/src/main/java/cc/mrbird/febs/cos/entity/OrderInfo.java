@@ -41,7 +41,7 @@ public class OrderInfo implements Serializable {
     private String orderName;
 
     /**
-     * 物件描述
+     * 农产品描述
      */
     private String content;
 
@@ -86,7 +86,7 @@ public class OrderInfo implements Serializable {
     private String remark;
 
     /**
-     * 订单状态（0.等待报价 1.未支付 2.维修回收中 3.已完成）
+     * 订单状态（0.等待报价 1.未支付 2.采购中 3.已完成）
      */
     private String status;
 
@@ -101,27 +101,27 @@ public class OrderInfo implements Serializable {
     private String payDate;
 
     /**
-     * 物品类型
+     * 商品类型
      */
     private String goodsType;
 
     /**
-     * 物品图片
+     * 商品图片
      */
     private String images;
 
     /**
-     * 物品重量
+     * 商品重量
      */
     private BigDecimal weight;
 
     /**
-     * 物品高度
+     * 商品高度
      */
     private BigDecimal height;
 
     /**
-     * 物品宽度
+     * 商品宽度
      */
     private BigDecimal width;
 
@@ -146,7 +146,7 @@ public class OrderInfo implements Serializable {
     private String logisticsInfo;
 
     /**
-     * 修复流程信息
+     * 生命周期信息
      */
     private String fixProcessInfo;
 
@@ -201,7 +201,7 @@ public class OrderInfo implements Serializable {
     private String fixDifficulty;
 
     /**
-     * 物件标签
+     * 农产品标签
      */
     private String tagList;
 

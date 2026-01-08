@@ -85,7 +85,7 @@ public class AliAliController {
             // 3. 构建用户消息
             MultiModalMessage userMessage = MultiModalMessage.builder().role(Role.USER.getValue())
                     .content(Arrays.asList(new HashMap<String, Object>(){{put("image", imageBase64);}},
-                            new HashMap<String, Object>(){{put("text", "这是什么物品？请描述它的特征和大概价值，600字以内。");}})).build();
+                            new HashMap<String, Object>(){{put("text", "这是什么商品？请描述它的特征和大概价值，600字以内。");}})).build();
 
             MultiModalConversationParam param = MultiModalConversationParam.builder()
                     .model(MultiModalConversation.Models.QWEN_VL_PLUS)

@@ -1,9 +1,11 @@
 package cc.mrbird.febs.cos.controller;
 
 
+import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.common.utils.R;
 import cc.mrbird.febs.cos.entity.PriceTrends;
 import cc.mrbird.febs.cos.service.IPriceTrendsService;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,8 +63,39 @@ public class PriceTrendsController {
      * @return 结果
      */
     @PostMapping
-    public R save(PriceTrends priceTrends) {
+    public R save(PriceTrends priceTrends) throws FebsException {
+        // 校验是否重复记录
+        PriceTrends trends = priceTrendsService.getOne(Wrappers.<PriceTrends>lambdaQuery().eq(PriceTrends::getCategory, priceTrends.getCategory()).eq(PriceTrends::getRecordDate, priceTrends.getRecordDate()));
+        if (trends != null) {
+            throw new FebsException("该品类该时间已记录！");
+        }
         return R.ok(priceTrendsService.save(priceTrends));
+    }
+
+    /**
+     * 根据品类获取当前价格
+     *
+     * @param category 品类
+     * @return 结果
+     */
+    @GetMapping("/queryCategoryPrice")
+    public R queryCategoryPrice(String category) {
+        PriceTrends trends = priceTrendsService.getOne(Wrappers.<PriceTrends>lambdaQuery().eq(PriceTrends::getCategory, category).orderByDesc(PriceTrends::getRecordDate).last("limit 1"));
+        if (trends != null) {
+            return R.ok(trends.getPrice());
+        } else {
+            return R.ok(0);
+        }
+    }
+
+    /**
+     * 根据品类获取价格走势
+     *
+     * @param category 品类
+     * @return 列表
+     */
+    public R queryCategoryTrend(String category) {
+        return R.ok(priceTrendsService.queryCategoryTrend(category));
     }
 
     /**
@@ -72,7 +105,12 @@ public class PriceTrendsController {
      * @return 结果
      */
     @PutMapping
-    public R edit(PriceTrends priceTrends) {
+    public R edit(PriceTrends priceTrends) throws FebsException {
+        // 校验是否重复记录
+        PriceTrends trends = priceTrendsService.getOne(Wrappers.<PriceTrends>lambdaQuery().eq(PriceTrends::getCategory, priceTrends.getCategory()).eq(PriceTrends::getRecordDate, priceTrends.getRecordDate()));
+        if (trends != null && !trends.getId().equals(priceTrends.getId())) {
+            throw new FebsException("该品类该时间已记录！");
+        }
         return R.ok(priceTrendsService.updateById(priceTrends));
     }
 
