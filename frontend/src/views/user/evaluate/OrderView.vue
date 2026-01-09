@@ -197,7 +197,7 @@ export default {
     },
     columns () {
       return [{
-        title: '菜品名称',
+        title: '商品名称',
         dataIndex: 'dishesName'
       }, {
         title: '图片',

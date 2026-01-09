@@ -75,14 +75,6 @@
                     <div style="font-size: 12px; color: #8c8c8c;">期望价格</div>
                     <div style="color: #ff4d4f; font-weight: 500;font-size: 15px">¥{{ (item.forecastPrice).toFixed(2) }}</div>
                   </div>
-                  <div v-if="item.orderType == 1">
-                    <div style="font-size: 12px; color: #8c8c8c;">维修难度</div>
-                    <a-tag :color="item.fixDifficulty == 1 ? 'green' : item.fixDifficulty == 2 ? 'orange' : 'red'">
-                      <span v-if="item.fixDifficulty == 1">轻度</span>
-                      <span v-if="item.fixDifficulty == 2">中度</span>
-                      <span v-if="item.fixDifficulty == 3">复杂</span>
-                    </a-tag>
-                  </div>
                 </div>
               </div>
             </div>

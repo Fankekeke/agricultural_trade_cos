@@ -29,10 +29,10 @@ public class OrderQuotationController {
     private final IStaffInfoService staffInfoService;
 
     /**
-     * 分页获取回收维修报价信息
+     * 分页获取订单报价信息
      *
      * @param page           分页对象
-     * @param orderQuotation 回收维修报价信息
+     * @param orderQuotation 订单报价信息
      * @return 结果
      */
     @GetMapping("/page")
@@ -52,7 +52,7 @@ public class OrderQuotationController {
     }
 
     /**
-     * 获取ID获取回收维修报价详情
+     * 获取ID获取订单报价详情
      *
      * @param id 主键
      * @return 结果
@@ -63,7 +63,7 @@ public class OrderQuotationController {
     }
 
     /**
-     * 获取回收维修报价信息列表
+     * 获取订单报价信息列表
      *
      * @return 结果
      */
@@ -86,9 +86,9 @@ public class OrderQuotationController {
     }
 
     /**
-     * 新增回收维修报价信息
+     * 新增订单报价信息
      *
-     * @param orderQuotation 回收维修报价信息
+     * @param orderQuotation 订单报价信息
      * @return 结果
      */
     @PostMapping
@@ -102,9 +102,9 @@ public class OrderQuotationController {
     }
 
     /**
-     * 修改回收维修报价信息
+     * 修改订单报价信息
      *
-     * @param orderQuotation 回收维修报价信息
+     * @param orderQuotation 订单报价信息
      * @return 结果
      */
     @PutMapping
@@ -117,10 +117,10 @@ public class OrderQuotationController {
     }
 
     /**
-     * 删除回收维修报价信息
+     * 删除订单报价信息
      *
      * @param ids ids
-     * @return 回收维修报价信息
+     * @return 订单报价信息
      */
     @DeleteMapping("/{ids}")
     public R deleteByIds(@PathVariable("ids") List<Integer> ids) {

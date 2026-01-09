@@ -258,6 +258,8 @@ export default {
         dataIndex: 'status',
         customRender: (text, row, index) => {
           switch (text) {
+            case '-1':
+              return <a-tag color="pink">培育中</a-tag>
             case '0':
               return <a-tag color="red">等待报价</a-tag>
             case '1':

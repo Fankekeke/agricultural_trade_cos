@@ -59,11 +59,6 @@
         <a-col :span="6"><b>折扣后价格：</b>
           {{ orderInfo.afterOrderPrice ? orderInfo.afterOrderPrice : '- -' }}元
         </a-col>
-        <a-col :span="6" v-if="orderData.orderType == 1"><b>维修难度：</b>
-          <span v-if="orderData.fixDifficulty == 1">轻度</span>
-          <span v-if="orderData.fixDifficulty == 2">中度</span>
-          <span v-if="orderData.fixDifficulty == 3">复杂</span>
-        </a-col>
       </a-row>
       <br/>
       <a-row style="padding-left: 24px;padding-right: 24px;">
@@ -84,25 +79,12 @@
         <a-col :span="6"><b>商品重量：</b>
           {{ orderInfo.weight ? orderInfo.weight : '- -' }}KG
         </a-col>
-        <a-col :span="6"><b>商品高度：</b>
-          {{ orderInfo.height ? orderInfo.height : '- -' }}厘米
-        </a-col>
-        <a-col :span="6"><b>商品宽度：</b>
-          {{ orderInfo.width ? orderInfo.width : '- -' }}厘米
-        </a-col>
       </a-row>
       <br/>
       <a-row style="padding-left: 24px;padding-right: 24px;">
         <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">商品描述</span></a-col>
         <a-col :span="24">
           {{ orderData.content ? orderData.content : '- -' }}
-        </a-col>
-      </a-row>
-      <br/>
-      <a-row style="padding-left: 24px;padding-right: 24px;">
-        <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">商品瑕疵</span></a-col>
-        <a-col :span="24">
-          {{ orderData.flawContent ? orderData.flawContent : '- -' }}
         </a-col>
       </a-row>
       <br/>
@@ -120,24 +102,6 @@
           </a-upload>
           <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
             <img alt="example" style="width: 100%" :src="previewImage" />
-          </a-modal>
-        </a-col>
-      </a-row>
-      <br/>
-      <a-row style="padding-left: 24px;padding-right: 24px;">
-        <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">瑕疵图册</span></a-col>
-        <a-col :span="24">
-          <a-upload
-            name="avatar"
-            action="http://127.0.0.1:9527/file/fileUpload/"
-            list-type="picture-card"
-            :file-list="flawFileList"
-            @preview="handlePreviewFlaw"
-            @change="picHandleChangeFlaw"
-          >
-          </a-upload>
-          <a-modal :visible="previewVisibleFlaw" :footer="null" @cancel="handleCancelFlaw">
-            <img alt="example" style="width: 100%" :src="previewImageFlaw" />
           </a-modal>
         </a-col>
       </a-row>
@@ -289,7 +253,7 @@ export default {
     },
     columns () {
       return [{
-        title: '菜品名称',
+        title: '商品名称',
         dataIndex: 'dishesName'
       }, {
         title: '图片',

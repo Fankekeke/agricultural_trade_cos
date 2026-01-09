@@ -20,6 +20,7 @@
               {{ orderInfo.integral }}
             </a-col>
             <a-col :span="6"><b>订单状态：</b>
+              <span v-if="orderInfo.status === '-1'" style="color: #f60ac7">培育中</span>
               <span v-if="orderInfo.status === '0'" style="color: red">等待报价</span>
               <span v-if="orderInfo.status === '1'" style="color: blue">未支付</span>
               <span v-if="orderInfo.status === '2'" style="color: orange">采购中</span>
@@ -100,7 +101,7 @@
             <a-col :span="6"><b>联系方式：</b>
               {{ merchantInfo.phone }}
             </a-col>
-            <a-col :span="6"><b>菜系：</b>
+            <a-col :span="6"><b>类型：</b>
               {{ merchantInfo.dishes ? merchantInfo.dishes : '- -' }}
             </a-col>
           </a-row>
@@ -108,7 +109,7 @@
         <br/>
         <div style="font-size: 13px;font-family: SimHei" v-if="orderItemInfo.length !== 0">
           <a-row style="padding-left: 24px;padding-right: 24px;">
-            <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">购买菜品</span></a-col>
+            <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">购买商品</span></a-col>
             <a-table bordered :columns="columns" :data-source="orderItemInfo"></a-table>
           </a-row>
           <br/>
@@ -217,7 +218,7 @@ export default {
     },
     columns () {
       return [{
-        title: '菜品名称',
+        title: '商品名称',
         dataIndex: 'dishesName'
       }, {
         title: '图片',

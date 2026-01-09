@@ -74,12 +74,6 @@
         <a-col :span="6"><b>商品重量：</b>
           {{ orderInfo.weight ? orderInfo.weight : '- -' }}KG
         </a-col>
-        <a-col :span="6"><b>商品高度：</b>
-          {{ orderInfo.height ? orderInfo.height : '- -' }}厘米
-        </a-col>
-        <a-col :span="6"><b>商品宽度：</b>
-          {{ orderInfo.width ? orderInfo.width : '- -' }}厘米
-        </a-col>
       </a-row>
       <br/>
       <a-row style="padding-left: 24px;padding-right: 24px;">
@@ -247,7 +241,7 @@ export default {
     },
     columns () {
       return [{
-        title: '菜品名称',
+        title: '商品名称',
         dataIndex: 'dishesName'
       }, {
         title: '图片',

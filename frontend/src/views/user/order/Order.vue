@@ -72,12 +72,6 @@
         </template>
       </a-table>
     </div>
-    <order-audit
-      @close="handleorderAuditViewClose"
-      @success="handleorderAuditViewSuccess"
-      :orderShow="orderAuditView.visiable"
-      :orderData="orderAuditView.data">
-    </order-audit>
     <order-status
       @close="handleorderStatusViewClose"
       @success="handleorderStatusViewSuccess"
@@ -125,7 +119,6 @@ import RangeDate from '@/components/datetime/RangeDate'
 import {mapState} from 'vuex'
 import moment from 'moment'
 import OrderAdd from './OrderAdd'
-import OrderAudit from './OrderAudit'
 import OrderView from './OrderView'
 import OrderStatus from './OrderStatus.vue'
 import OrderEvaluate from './OrderEvaluate'
@@ -136,7 +129,7 @@ moment.locale('zh-cn')
 
 export default {
   name: 'order',
-  components: {OrderView, OrderAudit, RangeDate, OrderStatus, OrderAdd, MapView, OrderEvaluate, OrderPay, MapRecycleView},
+  components: {OrderView, RangeDate, OrderStatus, OrderAdd, MapView, OrderEvaluate, OrderPay, MapRecycleView},
   data () {
     return {
       advanced: false,
@@ -180,10 +173,6 @@ export default {
         showQuickJumper: true,
         showSizeChanger: true,
         showTotal: (total, range) => `显示 ${range[0]} ~ ${range[1]} 条记录，共 ${total} 条记录`
-      },
-      orderAuditView: {
-        visiable: false,
-        data: null
       },
       userList: [],
       orderEvaluateView: {
@@ -277,6 +266,8 @@ export default {
         dataIndex: 'status',
         customRender: (text, row, index) => {
           switch (text) {
+            case '-1':
+              return <a-tag color="pink">培育中</a-tag>
             case '0':
               return <a-tag color="red">等待报价</a-tag>
             case '1':
@@ -369,10 +360,6 @@ export default {
       this.orderStatusView.data = row
       this.orderStatusView.visiable = true
     },
-    orderAuditOpen (row) {
-      this.orderAuditView.data = row
-      this.orderAuditView.visiable = true
-    },
     orderViewOpen (row) {
       this.orderView.data = row
       this.orderView.visiable = true
@@ -386,14 +373,6 @@ export default {
     handleorderStatusViewSuccess () {
       this.orderStatusView.visiable = false
       this.$message.success('修改成功')
-      this.fetch()
-    },
-    handleorderAuditViewClose () {
-      this.orderAuditView.visiable = false
-    },
-    handleorderAuditViewSuccess () {
-      this.orderAuditView.visiable = false
-      this.$message.success('设置成功')
       this.fetch()
     },
     onSelectChange (selectedRowKeys) {

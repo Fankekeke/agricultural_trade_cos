@@ -15,10 +15,10 @@ import java.util.List;
 public interface IOrderQuotationService extends IService<OrderQuotation> {
 
     /**
-     * 分页获取回收维修报价信息
+     * 分页获取订单报价信息
      *
      * @param page           分页对象
-     * @param orderQuotation 回收维修报价信息
+     * @param orderQuotation 订单报价信息
      * @return 结果
      */
     IPage<LinkedHashMap<String, Object>> queryQuotation(Page<OrderQuotation> page, OrderQuotation orderQuotation);

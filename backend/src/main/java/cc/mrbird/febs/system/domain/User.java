@@ -100,7 +100,7 @@ public class User implements Serializable {
     private String images;
 
     /**
-     * 角色权限标记（1.用户 2.维修员）
+     * 角色权限标记（1.用户 2.批发商）
      */
     private String roleFlag;
 

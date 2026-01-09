@@ -23,6 +23,7 @@
                 <a-card :title="orderInfo.orderName" :bordered="false">
                   <div style="text-align: center;margin-top: 20px;font-family: SimHei;">
                     <a-icon type="smile" theme="twoTone" style="font-size: 80px"/>
+                    <p v-if="orderInfo.status == -1" style="font-size: 20px;margin-top: 15px;margin-bottom: 15px">培育中！</p>
                     <p v-if="orderInfo.status == 0" style="font-size: 20px;margin-top: 15px;margin-bottom: 15px">等待报价中！</p>
                     <p v-if="orderInfo.status == 1" style="font-size: 20px;margin-top: 15px;margin-bottom: 15px">已确认，等待订单支付！</p>
                     <p v-if="orderInfo.status == 2" style="font-size: 20px;margin-top: 15px;margin-bottom: 15px">采购中！</p>
@@ -95,11 +96,6 @@
                     <a-col :span="8"><b>折扣后价格：</b>
                       {{ orderInfo.afterOrderPrice ? orderInfo.afterOrderPrice : '- -' }}元
                     </a-col>
-                    <a-col :span="8" v-if="orderData.orderType == 1"><b>维修难度：</b>
-                      <span v-if="orderData.fixDifficulty == 1">轻度</span>
-                      <span v-if="orderData.fixDifficulty == 2">中度</span>
-                      <span v-if="orderData.fixDifficulty == 3">复杂</span>
-                    </a-col>
                     <a-col :span="8"><b>订单类型：</b>
                       <span v-if="orderData.orderType == 1">直供</span>
                       <span v-if="orderData.orderType == 2">集采</span>
@@ -119,14 +115,6 @@
                     </a-col>
                   </a-row>
                   <br/>
-                  <a-row style="padding-left: 24px;padding-right: 24px;">
-                    <a-col :span="8"><b>商品高度：</b>
-                      {{ orderInfo.height ? orderInfo.height : '- -' }}厘米
-                    </a-col>
-                    <a-col :span="8"><b>商品宽度：</b>
-                      {{ orderInfo.width ? orderInfo.width : '- -' }}厘米
-                    </a-col>
-                  </a-row>
                 </div>
                 <br/>
                 <br/>
@@ -134,13 +122,6 @@
                   <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">商品描述</span></a-col>
                   <a-col :span="24">
                     {{ orderData.content ? orderData.content : '- -' }}
-                  </a-col>
-                </a-row>
-                <br/>
-                <a-row style="padding-left: 24px;padding-right: 24px;">
-                  <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">商品瑕疵</span></a-col>
-                  <a-col :span="24">
-                    {{ orderData.flawContent ? orderData.flawContent : '- -' }}
                   </a-col>
                 </a-row>
                 <br/>
@@ -158,24 +139,6 @@
                     </a-upload>
                     <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
                       <img alt="example" style="width: 100%" :src="previewImage" />
-                    </a-modal>
-                  </a-col>
-                </a-row>
-                <br/>
-                <a-row style="padding-left: 24px;padding-right: 24px;">
-                  <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">瑕疵图册</span></a-col>
-                  <a-col :span="24">
-                    <a-upload
-                      name="avatar"
-                      action="http://127.0.0.1:9527/file/fileUpload/"
-                      list-type="picture-card"
-                      :file-list="flawFileList"
-                      @preview="handlePreviewFlaw"
-                      @change="picHandleChangeFlaw"
-                    >
-                    </a-upload>
-                    <a-modal :visible="previewVisibleFlaw" :footer="null" @cancel="handleCancelFlaw">
-                      <img alt="example" style="width: 100%" :src="previewImageFlaw" />
                     </a-modal>
                   </a-col>
                 </a-row>

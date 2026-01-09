@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
- * 维修回收报价
+ * 订单报价
  *
  * @author FanK
  */
@@ -32,7 +32,7 @@ public class OrderQuotation implements Serializable {
     private Integer orderId;
 
     /**
-     * 维修员ID
+     * 批发商ID
      */
     private Integer staffId;
 

@@ -86,7 +86,7 @@ public class OrderInfo implements Serializable {
     private String remark;
 
     /**
-     * 订单状态（0.等待报价 1.未支付 2.采购中 3.已完成）
+     * 订单状态（-1.培育中 0.等待报价 1.未支付 2.采购中 3.已完成）
      */
     private String status;
 
@@ -196,7 +196,7 @@ public class OrderInfo implements Serializable {
     private String orderMethod;
 
     /**
-     * 修复难度（1.轻度、2.中度、3.复杂）
+     * 难度（1.轻、2.中、3.重）
      */
     private String fixDifficulty;
 

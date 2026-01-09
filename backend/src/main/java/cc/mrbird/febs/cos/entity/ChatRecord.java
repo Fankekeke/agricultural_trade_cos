@@ -30,7 +30,7 @@ public class ChatRecord implements Serializable {
     private Integer userId;
 
     /**
-     * 维修员ID
+     * 批发商ID
      */
     private Integer staffId;
 
