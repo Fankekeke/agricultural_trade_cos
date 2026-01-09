@@ -3,7 +3,9 @@ package cc.mrbird.febs.cos.controller;
 
 import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.common.utils.R;
+import cc.mrbird.febs.cos.entity.PriceConfig;
 import cc.mrbird.febs.cos.entity.PriceTrends;
+import cc.mrbird.febs.cos.service.IPriceConfigService;
 import cc.mrbird.febs.cos.service.IPriceTrendsService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -11,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -23,6 +26,8 @@ public class PriceTrendsController {
 
     private final IPriceTrendsService priceTrendsService;
 
+    private final IPriceConfigService priceConfigService;
+
     /**
      * 分页获取价格记录信息
      *
@@ -33,6 +38,25 @@ public class PriceTrendsController {
     @GetMapping("/page")
     public R page(Page<PriceTrends> page, PriceTrends priceTrends) {
         return R.ok(priceTrendsService.queryPriceTrendsPage(page, priceTrends));
+    }
+
+    /**
+     * 获取品类价格信息
+     *
+     * @return 列表
+     */
+    @GetMapping("/queryAllCategoryPrice")
+    public R queryAllCategoryPrice() {
+        List<PriceConfig> list = priceConfigService.list();
+        list.forEach(item -> {
+            PriceTrends trends = priceTrendsService.getOne(Wrappers.<PriceTrends>lambdaQuery().eq(PriceTrends::getId, item.getId()).orderByDesc(PriceTrends::getRecordDate).last("limit 1"));
+            if (trends != null) {
+                item.setPrice(trends.getPrice());
+            } else {
+                item.setPrice(BigDecimal.ZERO);
+            }
+        });
+        return R.ok(list);
     }
 
     /**
@@ -75,12 +99,12 @@ public class PriceTrendsController {
     /**
      * 根据品类获取当前价格
      *
-     * @param category 品类
+     * @param id 品类
      * @return 结果
      */
     @GetMapping("/queryCategoryPrice")
-    public R queryCategoryPrice(String category) {
-        PriceTrends trends = priceTrendsService.getOne(Wrappers.<PriceTrends>lambdaQuery().eq(PriceTrends::getCategory, category).orderByDesc(PriceTrends::getRecordDate).last("limit 1"));
+    public R queryCategoryPrice(Integer id) {
+        PriceTrends trends = priceTrendsService.getOne(Wrappers.<PriceTrends>lambdaQuery().eq(PriceTrends::getId, id).orderByDesc(PriceTrends::getRecordDate).last("limit 1"));
         if (trends != null) {
             return R.ok(trends.getPrice());
         } else {

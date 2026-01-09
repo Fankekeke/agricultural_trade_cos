@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -43,5 +44,11 @@ public class PriceConfig implements Serializable {
      * 创建时间
      */
     private String createDate;
+
+    /**
+     * 价格
+     */
+    @TableField(exist = false)
+    private BigDecimal price;
 
 }

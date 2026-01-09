@@ -1,21 +1,21 @@
 <template>
-  <div style="background: linear-gradient(135deg, #fdfdfd 0%, #d7d7d7 100%); margin-bottom: 30px; min-height: 100vh;">
+  <div style=" margin-bottom: 30px; min-height: 100vh;">
     <div>
       <div style="padding: 20px;">
         <div>
           <a-card
             :bordered="false"
             hoverable
-            style="height: 100%; border-radius: 15px; box-shadow: 0 8px 16px rgba(121, 85, 72, 0.2);">
+            style="height: 100%; border-radius: 15px;">
             <a-row style="margin: 0 auto" :gutter="20">
               <a-col :span="12" style="margin-top: 65px;text-align: center">
-                <img alt="example" style="width: 500px;height: 500px;" src="/static/img/Search_SVG.png"/>
+                <img alt="example" style="width: 500px;height: 500px;" src="/static/img/undraw_creative-flow.png"/>
               </a-col>
               <a-col :span="12">
-                <p style="font-size: 30px;font-family: SimHei;font-weight: 500">发布农产订单</p>
+                <p style="font-size: 30px;font-family: SimHei;font-weight: 500">发布农产商品</p>
                 <a-row>
                   <a-col :span="24" style="font-size: 15px;font-family: SimHei;" v-if="nextFlag == 1">
-                    <div style="background: #f8f6f4; padding: 20px; border-radius: 10px; ">
+                    <div style="background: rgb(251 251 251); padding: 20px; border-radius: 10px; ">
                       <a-form :form="form" layout="vertical">
                         <a-row :gutter="20">
                           <a-col :span="6">
@@ -26,12 +26,21 @@
                                 ]"/>
                             </a-form-item>
                           </a-col>
-                          <a-col :span="6">
+                          <a-col :span="12">
                             <a-form-item label='商品类型' v-bind="formItemLayout">
-                              <a-input v-decorator="[
-                                'goodsType',
-                                { rules: [{ required: true, message: '请输入商品类型!' }] }
-                                ]"/>
+                              <a-select
+                                v-decorator="['goodsType', { rules: [{ required: true, message: '请输入商品类型' }] }]"
+                                placeholder="请输入商品类型"
+                                @change="handleGoodsTypeChange"
+                              >
+                                <a-select-option
+                                  v-for="category in categoryList"
+                                  :key="category.id"
+                                  :value="category.id"
+                                >
+                                  {{ category.category }}  <span style="font-size: 11px;margin-left: 10px">当前价格{{ category.price }}元 /千克</span>
+                                </a-select-option>
+                              </a-select>
                             </a-form-item>
                           </a-col>
                           <a-col :span="6">
@@ -208,7 +217,7 @@ export default {
       },
       key: '',
       roomList: [],
-      roomTypeList: [],
+      categoryList: [],
       loading: false,
       vehicleView: {
         visiable: false,
@@ -233,6 +242,7 @@ export default {
   },
   mounted () {
     this.selectAddress()
+    this.queryCategoryList()
     // 确保加载marked.js库
     if (typeof window.marked === 'undefined') {
       const script = document.createElement('script')
@@ -241,6 +251,23 @@ export default {
     }
   },
   methods: {
+    handleGoodsTypeChange (value) {
+      if (value) {
+        this.queryCurrentPriceByGoodsType(value)
+      }
+    },
+    queryCurrentPriceByGoodsType (id) {
+      this.$get('/cos/price-trends/queryCategoryPrice', {
+        id
+      }).then((r) => {
+        this.price = r.data.data
+      })
+    },
+    queryCategoryList () {
+      this.$get('/cos/price-trends/queryAllCategoryPrice').then((r) => {
+        this.categoryList = r.data.data
+      })
+    },
     renderMarkdown (content) {
       if (!content) {
         return ''
