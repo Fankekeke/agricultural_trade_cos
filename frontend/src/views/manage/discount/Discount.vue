@@ -15,7 +15,7 @@
             </a-col>
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="用户名称"
+                label="批发商名称"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
                 <a-input v-model="queryParams.userName"/>
@@ -149,7 +149,7 @@ export default {
         dataIndex: 'couponName',
         ellipsis: true
       }, {
-        title: '用户名称',
+        title: '批发商名称',
         dataIndex: 'userName',
         customRender: (text, row, index) => {
           if (text !== null) {
@@ -171,7 +171,7 @@ export default {
         },
         ellipsis: true
       }, {
-        title: '用户头像',
+        title: '批发商头像',
         dataIndex: 'images',
         customRender: (text, record, index) => {
           if (!record.images) return <a-avatar shape="square" icon="user" />

@@ -59,24 +59,6 @@
       </a-row>
       <br/>
       <a-row style="padding-left: 24px;padding-right: 24px;">
-        <a-col :span="6"><b>商品类型：</b>
-          <span v-if="orderInfo.goodsType == 1">文件</span>
-          <span v-if="orderInfo.goodsType == 2">食品</span>
-          <span v-if="orderInfo.goodsType == 3">蛋糕</span>
-          <span v-if="orderInfo.goodsType == 4">数码</span>
-          <span v-if="orderInfo.goodsType == 5">证件</span>
-          <span v-if="orderInfo.goodsType == 6">药品</span>
-          <span v-if="orderInfo.goodsType == 7">海鲜</span>
-          <span v-if="orderInfo.goodsType == 8">鲜花</span>
-          <span v-if="orderInfo.goodsType == 9">服饰</span>
-          <span v-if="orderInfo.goodsType == 10">其他</span>
-        </a-col>
-        <a-col :span="6"><b>商品重量：</b>
-          {{ orderInfo.weight ? orderInfo.weight : '- -' }}KG
-        </a-col>
-      </a-row>
-      <br/>
-      <a-row style="padding-left: 24px;padding-right: 24px;">
         <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">图册</span></a-col>
         <a-col :span="24">
           <a-upload

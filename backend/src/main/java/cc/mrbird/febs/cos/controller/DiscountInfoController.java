@@ -3,8 +3,10 @@ package cc.mrbird.febs.cos.controller;
 
 import cc.mrbird.febs.common.utils.R;
 import cc.mrbird.febs.cos.entity.DiscountInfo;
+import cc.mrbird.febs.cos.entity.StaffInfo;
 import cc.mrbird.febs.cos.entity.UserInfo;
 import cc.mrbird.febs.cos.service.IDiscountInfoService;
+import cc.mrbird.febs.cos.service.IStaffInfoService;
 import cc.mrbird.febs.cos.service.IUserInfoService;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
@@ -32,6 +34,8 @@ public class DiscountInfoController {
 
     private final IUserInfoService userInfoService;
 
+    private final IStaffInfoService staffInfoService;
+
     /**
      * 分页获取优惠券信息
      *
@@ -54,9 +58,9 @@ public class DiscountInfoController {
     @GetMapping("/queryDiscountByUser")
     public R queryDiscountByUser(@RequestParam Integer userId, @RequestParam BigDecimal orderPrice) {
         List<DiscountInfo> discountInfos = new ArrayList<>();
-        UserInfo userInfo = userInfoService.getOne(Wrappers.<UserInfo>lambdaQuery().eq(UserInfo::getUserId, userId));
+        StaffInfo staffInfo = staffInfoService.getOne(Wrappers.<StaffInfo>lambdaQuery().eq(StaffInfo::getUserId, userId));
         // 判断是有可用优惠券
-        List<DiscountInfo> discountInfoList = discountInfoService.list(Wrappers.<DiscountInfo>lambdaQuery().eq(DiscountInfo::getUserId, userInfo.getId()).eq(DiscountInfo::getStatus, "0"));
+        List<DiscountInfo> discountInfoList = discountInfoService.list(Wrappers.<DiscountInfo>lambdaQuery().eq(DiscountInfo::getUserId, staffInfo.getId()).eq(DiscountInfo::getStatus, "0"));
         if (CollectionUtil.isNotEmpty(discountInfoList)) {
             List<DiscountInfo> discount1s = discountInfoList.stream().filter(e -> "2".equals(e.getType())).collect(Collectors.toList());
             List<DiscountInfo> discount2s = discountInfoList.stream().filter(e -> "1".equals(e.getType()) && orderPrice.compareTo(e.getThreshold()) >= 0).collect(Collectors.toList());

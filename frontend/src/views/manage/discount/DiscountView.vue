@@ -50,11 +50,11 @@
       </a-row>
       <br/>
       <a-row style="padding-left: 24px;padding-right: 24px;">
-        <a-col :span="8"><b>所属用户：</b>
+        <a-col :span="8"><b>所属批发商：</b>
           {{ discountData.userName }}
         </a-col>
-        <a-col :span="8"><b>邮箱地址：</b>
-          {{ discountData.mail }}
+        <a-col :span="8"><b>批发商编号：</b>
+          {{ discountData.userCode }}
         </a-col>
         <a-col :span="8"><b>联系方式：</b>
           {{ discountData.phone }}

@@ -15,7 +15,7 @@
             </a-col>
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="用户名称"
+                label="批发商"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
                 <a-input v-model="queryParams.userName"/>
@@ -54,7 +54,7 @@
     <div>
       <div class="operator">
 <!--        <a-button type="primary" ghost @click="add">新增</a-button>-->
-        <a-button @click="batchDelete">删除</a-button>
+<!--        <a-button @click="batchDelete">删除</a-button>-->
       </div>
       <!-- 表格区域 -->
       <a-table bordered ref="TableInfo"
@@ -94,8 +94,8 @@
 
 <script>
 import RangeDate from '@/components/datetime/RangeDate'
-import discountAdd from './DiscountAdd'
-import discountEdit from './DiscountEdit'
+import discountAdd from './DiscountAdd.vue'
+import discountEdit from './DiscountEdit.vue'
 import discountView from './DiscountView.vue'
 import {mapState} from 'vuex'
 import moment from 'moment'
@@ -147,7 +147,7 @@ export default {
         title: '优惠券名称',
         dataIndex: 'couponName'
       }, {
-        title: '用户名称',
+        title: '批发商名称',
         dataIndex: 'userName',
         customRender: (text, row, index) => {
           if (text !== null) {
@@ -167,7 +167,7 @@ export default {
           }
         }
       }, {
-        title: '用户头像',
+        title: '批发商头像',
         dataIndex: 'images',
         customRender: (text, record, index) => {
           if (!record.images) return <a-avatar shape="square" icon="user" />

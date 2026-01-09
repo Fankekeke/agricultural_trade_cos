@@ -54,10 +54,10 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label='所属用户' v-bind="formItemLayout">
+          <a-form-item label='所属批发商' v-bind="formItemLayout">
             <a-select style="width: 100%" v-decorator="[
               'userId',
-              { rules: [{ required: true, message: '请输入所属用户!' }] }
+              { rules: [{ required: true, message: '请输入所属批发商!' }] }
               ]">
               <a-select-option v-for="(item, index) in userList" :value="item.id" :key="index">{{ item.name }}</a-select-option>
             </a-select>
@@ -130,7 +130,7 @@ export default {
       console.log(this.discountType)
     },
     selectUserList () {
-      this.$get(`/cos/user-info/list`).then((r) => {
+      this.$get(`/cos/staff-info/list`).then((r) => {
         this.userList = r.data.data
       })
     },
