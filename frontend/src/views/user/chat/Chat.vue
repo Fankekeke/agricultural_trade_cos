@@ -136,7 +136,7 @@ export default {
     sendMsg (teacherId, studentId) {
       if (this.newMessage.trim() === '') return
       this.$post('/cos/chat-record', {
-        hotelId: teacherId,
+        staffId: teacherId,
         userId: studentId,
         senderType: 0,
         content: this.newMessage

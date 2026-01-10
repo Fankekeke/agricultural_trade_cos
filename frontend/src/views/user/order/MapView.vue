@@ -43,8 +43,11 @@
                       <a-step title="已完成"/>
                     </a-steps>
                   </div>
-                  <div v-if="orderData.status == 2 || orderData.status == 3">
-                    <h3 style="font-size: 18px; font-weight: 650; color: #000c17; margin-bottom: 20px; border-left: 4px solid #1890ff; padding-left: 10px;">地址</h3>
+                  <div v-if="orderData.status == 1 || orderData.status == 2 || orderData.status == 3">
+                    <h3 style="font-size: 18px; font-weight: 650; color: #000c17; margin-bottom: 20px; border-left: 4px solid #1890ff; padding-left: 10px;">
+                      地址
+                      <a @click="rentNavigation" style="font-size: 13px;float: right">导航</a>
+                    </h3>
                     <div id="areas" style="width: 100%;height: 350px;box-shadow: 3px 3px 3px rgba(0, 0, 0, .2);background:#ec9e3c;color:#fff"></div>
                   </div>
                 </a-card>
@@ -286,9 +289,68 @@
             </div>
           </div>
         </a-col>
-        <a-col :span="15" style="height: 100%;background: #f8f8f8">
+        <a-col :span="15" style="height: 100%;background: #f8f8f8;height: 100vh;overflow-y: auto;overflow-x: hidden">
           <a-row :gutter="15" style="padding: 20px" v-if="orderData != null">
-            <a-col :span="24" style="margin-top: 15px;background: #fff;padding: 20px" v-if="orderData.status == 0">
+            <a-col :span="24"  v-if="orderData.putFlag == 0" style="margin-top: 15px;background: #fff;padding: 20px" >
+              <h3 style="font-size: 18px; font-weight: 650; color: #000c17; margin-bottom: 20px; border-left: 4px solid #1890ff; padding-left: 10px;">
+                产品周期溯源
+              </h3>
+              <a-timeline style="margin-top: 20px;">
+                <a-timeline-item
+                  v-for="(step, index) in repairSteps"
+                  :key="step.id"
+                  :color="getStepColor(step.status)">
+                  <p style="font-size: 14px; margin-bottom: 5px;">{{ step.time }}</p>
+                  <p style="font-size: 16px; font-weight: 500; color: #000c17;">{{ step.title }}</p>
+                  <p style="font-size: 13px; color: #8c8c8c;">{{ step.description }}</p>
+                </a-timeline-item>
+              </a-timeline>
+              <div style="margin-top: 20px; text-align: right;" v-if="orderData.finishDate == null">
+                <a-button type="primary" v-if="repairSteps.length > 0" @click="completeRepair">
+                  发布商品
+                </a-button>
+                <a-button type="primary" icon="plus" @click="showAddStepForm = true">
+                  添加步骤
+                </a-button>
+              </div>
+              <a-modal
+                title="添加周期溯源"
+                :visible="showAddStepForm"
+                @ok="addRepairStep"
+                @cancel="showAddStepForm = false"
+                width="600px">
+                <a-form :form="stepForm" layout="vertical">
+                  <a-form-item label="步骤标题">
+                    <a-input-search
+                      v-decorator="['title', { rules: [{ required: true, message: '请输入步骤标题' }] }]"
+                      placeholder="请输入步骤标题"
+                      @search="onSearch">
+                      <a-button
+                        slot="enterButton"
+                        type="primary"
+                        :loading="aiLoading">
+                        AI分析
+                      </a-button>
+                    </a-input-search>
+                  </a-form-item>
+                  <a-form-item label="步骤描述">
+                    <a-textarea
+                      v-decorator="['description', { rules: [{ required: true, message: '请输入步骤描述' }] }]"
+                      placeholder="请输入步骤描述"
+                      :rows="3" />
+                  </a-form-item>
+                  <a-form-item label="状态">
+                    <a-select
+                      v-decorator="['status', { rules: [{ required: true, message: '请选择状态' }], initialValue: 'pending' }]">
+                      <a-select-option value="completed">已完成</a-select-option>
+                      <a-select-option value="in-progress">进行中</a-select-option>
+                      <a-select-option value="pending">待处理</a-select-option>
+                    </a-select>
+                  </a-form-item>
+                </a-form>
+              </a-modal>
+            </a-col>
+            <a-col :span="24" style="margin-top: 15px;background: #fff;padding: 20px" v-if="orderData.status == 0 && orderData.putFlag == 1">
               <div v-if="quotationList && quotationList.length > 0">
                 <h3
                   style="font-size: 18px; font-weight: 650; color: #000c17; margin-bottom: 20px; border-left: 4px solid #1890ff; padding-left: 10px;">
@@ -326,12 +388,6 @@
                           <div style="display: flex; align-items: center;">
                             <a-icon type="phone" style="color: #1890ff; margin-right: 8px;"/>
                             <span>{{ item.staffPhone }}</span>
-                          </div>
-                        </a-col>
-                        <a-col :span="8">
-                          <div style="display: flex; align-items: center;">
-                            <a-icon type="clock-circle" style="color: #52c41a; margin-right: 8px;"/>
-                            <span>预计工时：{{ item.workHour }} 小时</span>
                           </div>
                         </a-col>
                         <a-col :span="8">
@@ -427,12 +483,6 @@
                           </div>
                         </a-col>
                         <a-col :span="8">
-                          <div style="display: flex; align-items: center;">
-                            <a-icon type="clock-circle" style="color: #52c41a; margin-right: 8px;"/>
-                            <span>预计工时：{{ item.workHour }} 小时</span>
-                          </div>
-                        </a-col>
-                        <a-col :span="8">
                           <div style="display: flex; justify-content: flex-end;">
                             <a-tag color="blue">批发商报价</a-tag>
                           </div>
@@ -500,9 +550,9 @@
                 </a-form>
               </div>
             </a-col>
-            <a-col :span="24" style="margin-top: 15px;background: #fff;padding: 20px" v-if="repairSteps.length !== 0">
+            <a-col :span="24" style="margin-top: 15px;background: #fff;padding: 20px" v-if="repairSteps.length !== 0 && orderData.putFlag == 1">
               <h3 style="font-size: 18px; font-weight: 650; color: #000c17; margin-bottom: 20px; border-left: 4px solid #1890ff; padding-left: 10px;">
-                生命周期
+                产品周期溯源
               </h3>
               <a-timeline style="margin-top: 20px;">
                 <a-timeline-item
@@ -549,6 +599,8 @@ export default {
   data () {
     return {
       repairSteps: [],
+      stepForm: this.$form.createForm(this),
+      showAddStepForm: false,
       logisticsForm: this.$form.createForm(this),
       rowId: null,
       quoteForm: this.$form.createForm(this),
@@ -584,6 +636,7 @@ export default {
       echartsShow: false,
       getShop: null,
       putShop: null,
+      aiLoading: false,
       quotationList: [],
       series: [{
         name: '得分',
@@ -612,10 +665,96 @@ export default {
     'orderShow': function (value) {
       if (value) {
         this.dataInit(this.orderData.id)
+        this.getLocal()
       }
     }
   },
   methods: {
+    onSearch (value) {
+      this.aiLoading = true
+      console.log(value)
+      let params = '根据-' + value + '给出农产品的解决建议，100字内'
+      this.$post(`/cos/ai/aliTyqw`, {
+        content: params
+      }).then((r) => {
+        // 将AI分析结果回填到表单的description字段
+        this.stepForm.setFieldsValue({
+          description: r.data.msg
+        })
+      }).catch((error) => {
+        this.$message.error('AI分析失败，请稍后重试')
+        console.error('AI分析错误:', error)
+      }).finally(() => {
+        this.aiLoading = false
+      })
+    },
+    rentNavigation () {
+      if (this.startAddressInfo != null) {
+        this.navigation(this.startAddressInfo)
+      }
+      if (this.endAddressInfo != null) {
+        this.navigation(this.endAddressInfo)
+      }
+    },
+    navigation (data) {
+      baiduMap.clearOverlays()
+      baiduMap.rMap().enableScrollWheelZoom(true)
+      // eslint-disable-next-line no-undef
+      let driving = new BMap.DrivingRoute(baiduMap.rMap(), {renderOptions: {map: baiduMap.rMap(), autoViewport: true}})
+      // eslint-disable-next-line no-undef
+      let point = new BMap.Point(data.longitude, data.latitude)
+      driving.search(new BMap.Point(this.nowPoint.lng, this.nowPoint.lat), point)
+      // this.getRoadData()
+    },
+    completeRepair () {
+      this.$confirm({
+        title: '确认发布商品',
+        content: '确定要标记此为发布状态吗？',
+        okText: '确认',
+        cancelText: '取消',
+        onOk: () => {
+          this.$get(`/cos/order-info/complete/${this.orderInfo.id}`).then((r) => {
+            this.$message.success('发布已完成')
+            this.$emit('close')
+          }).catch((e) => {
+            this.$message.error('操作失败')
+          })
+        }
+      })
+    },
+    addRepairStep () {
+      this.stepForm.validateFields((err, values) => {
+        if (!err) {
+          const newStep = {
+            id: this.repairSteps.length + 1,
+            time: this.formatDate(new Date()),
+            title: values.title,
+            description: values.description,
+            status: values.status
+          }
+          this.repairSteps.push(newStep)
+
+          this.$put(`/cos/order-info/setRepairStep`, {
+            id: this.orderInfo.id,
+            fixProcessInfo: JSON.stringify(this.repairSteps)
+          }).then((r) => {
+            this.queryRepairStep(this.orderInfo.id)
+            this.stepForm.resetFields()
+            this.showAddStepForm = false
+            this.$message.success('步骤添加成功')
+          })
+        }
+      })
+    },
+
+    formatDate (date) {
+      const year = date.getFullYear()
+      const month = String(date.getMonth() + 1).padStart(2, '0')
+      const day = String(date.getDate()).padStart(2, '0')
+      const hours = String(date.getHours()).padStart(2, '0')
+      const minutes = String(date.getMinutes()).padStart(2, '0')
+      return `${year}-${month}-${day} ${hours}:${minutes}`
+    },
     local (merchantData) {
       baiduMap.clearOverlays()
       baiduMap.rMap().enableScrollWheelZoom(true)
@@ -644,7 +783,7 @@ export default {
           let repairStep = JSON.parse(r.data.msg)
           this.repairSteps = repairStep
         } else {
-          let repairStep = []
+          this.repairSteps = []
         }
       })
     },
@@ -830,15 +969,6 @@ export default {
           }
         }, 200)
       })
-    },
-    navigation (address, merchant) {
-      baiduMap.clearOverlays()
-      baiduMap.rMap().enableScrollWheelZoom(true)
-      // eslint-disable-next-line no-undef
-      let driving = new BMap.DrivingRoute(baiduMap.rMap(), {renderOptions: {map: baiduMap.rMap(), autoViewport: true}})
-      // eslint-disable-next-line no-undef
-      driving.search(new BMap.Point(merchant.longitude, merchant.latitude), new BMap.Point(address.longitude, address.latitude))
-      // this.getRoadData()
     },
     getRoadData () {
       let options = {

@@ -73,19 +73,19 @@ public class PriceTrendsServiceImpl extends ServiceImpl<PriceTrendsMapper, Price
         for (LinkedHashMap<String, Object> data : historyData) {
             sum += Double.parseDouble(data.get("price").toString());
         }
-        double average = sum / historyData.size();
+        double average = Math.round(sum / historyData.size() * 100.0) / 100.0;
 
         // 获取最新价格作为基准
         LinkedHashMap<String, Object> latest = historyData.get(historyData.size() - 1);
-        double latestPrice = Double.parseDouble(latest.get("price").toString());
+        double latestPrice = Math.round(Double.parseDouble(latest.get("price").toString()) * 100.0) / 100.0;
         String latestDate = latest.get("date").toString();
 
         // 计算趋势斜率
         double trend = 0;
         if (historyData.size() > 1) {
             LinkedHashMap<String, Object> earliest = historyData.get(0);
-            double earliestPrice = Double.parseDouble(earliest.get("price").toString());
-            trend = (latestPrice - earliestPrice) / (historyData.size() - 1);
+            double earliestPrice = Math.round(Double.parseDouble(earliest.get("price").toString()) * 100.0) / 100.0;
+            trend = Math.round((latestPrice - earliestPrice) / (historyData.size() - 1) * 100.0) / 100.0;
         }
 
         // 计算波动因子（基于历史数据的标准差）
@@ -96,7 +96,8 @@ public class PriceTrendsServiceImpl extends ServiceImpl<PriceTrendsMapper, Price
         }
         variance = variance / historyData.size();
         // 标准差
-        double stdDev = Math.sqrt(variance);
+        double stdDev = Math.round(Math.sqrt(variance) * 100.0) / 100.0;
+
         // 预测未来14天的数据
         try {
             Date baseDate = DateUtil.parse(latestDate);
@@ -115,6 +116,9 @@ public class PriceTrendsServiceImpl extends ServiceImpl<PriceTrendsMapper, Price
                 if (forecastPrice < 0) {
                     forecastPrice = average;
                 }
+
+                // 保留两位小数
+                forecastPrice = Math.round(forecastPrice * 100.0) / 100.0;
 
                 LinkedHashMap<String, Object> forecastItem = new LinkedHashMap<>();
                 forecastItem.put("date", forecastDate);
@@ -159,6 +163,7 @@ public class PriceTrendsServiceImpl extends ServiceImpl<PriceTrendsMapper, Price
             // 下降趋势，增加一点负向波动
             randomFactor = randomFactor * 0.9 - stdDev * 0.1;
         }
-        return randomFactor;
+        // 保留两位小数
+        return Math.round(randomFactor * 100.0) / 100.0;
     }
 }

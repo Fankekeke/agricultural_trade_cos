@@ -4,8 +4,10 @@ package cc.mrbird.febs.cos.controller;
 import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.common.utils.R;
 import cc.mrbird.febs.cos.entity.StaffInfo;
+import cc.mrbird.febs.cos.entity.UserInfo;
 import cc.mrbird.febs.cos.entity.WithdrawInfo;
 import cc.mrbird.febs.cos.service.IStaffInfoService;
+import cc.mrbird.febs.cos.service.IUserInfoService;
 import cc.mrbird.febs.cos.service.IWithdrawInfoService;
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -28,6 +30,8 @@ public class WithdrawInfoController {
     private final IWithdrawInfoService withdrawInfoService;
 
     private final IStaffInfoService staffInfoService;
+
+    private final IUserInfoService userInfoService;
 
     /**
      * 分页获取提现记录信息
@@ -70,14 +74,14 @@ public class WithdrawInfoController {
      */
     @PostMapping
     public R save(WithdrawInfo withdrawInfo) throws FebsException {
-        // 校验此批发商是否有提现正在审核中
-        StaffInfo staffInfo = staffInfoService.getOne(Wrappers.<StaffInfo>lambdaQuery().eq(StaffInfo::getUserId, withdrawInfo.getStaffId()));
-        int count = withdrawInfoService.count(Wrappers.<WithdrawInfo>lambdaQuery().eq(WithdrawInfo::getStatus, 0).eq(WithdrawInfo::getStaffId, staffInfo.getId()));
+        // 校验此用户是否有提现正在审核中
+        UserInfo userInfo = userInfoService.getOne(Wrappers.<UserInfo>lambdaQuery().eq(UserInfo::getUserId, withdrawInfo.getStaffId()));
+        int count = withdrawInfoService.count(Wrappers.<WithdrawInfo>lambdaQuery().eq(WithdrawInfo::getStatus, 0).eq(WithdrawInfo::getStaffId, userInfo.getId()));
         if (count > 0) {
             throw new FebsException("存在正在审核的提现记录！");
         }
         withdrawInfo.setCode("WD-" + System.currentTimeMillis());
-        withdrawInfo.setStaffId(staffInfo.getId());
+        withdrawInfo.setStaffId(userInfo.getId());
         withdrawInfo.setStatus("0");
         withdrawInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
         return R.ok(withdrawInfoService.save(withdrawInfo));

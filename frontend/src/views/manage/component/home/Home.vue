@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-row style="margin-top: 15px" v-if="user.roleId != 75 ">
+    <a-row style="margin-top: 15px" v-if="user.roleId == 74 ">
       <a-col :span="24">
         <div style="background: #ECECEC; padding: 30px;">
           <a-row :gutter="16">
@@ -56,7 +56,77 @@
         </div>
       </a-col>
     </a-row>
-    <a-row style="margin-top: 15px" v-if="user.roleId != 75" :gutter="15">
+    <a-row style="margin-top: 15px" v-if="user.roleId == 74" :gutter="15">
+      <a-col :span="12">
+        <a-card hoverable :bordered="false" style="width: 100%">
+          <a-skeleton active v-if="loading" />
+          <apexchart  v-if="!loading" type="line" height="300" :options="chartOptions" :series="series"></apexchart>
+        </a-card>
+      </a-col>
+      <a-col :span="12">
+        <a-card hoverable :bordered="false" style="width: 100%">
+          <a-skeleton active v-if="loading" />
+          <apexchart v-if="!loading" type="bar" height="300" :options="chartOptions1" :series="series1"></apexchart>
+        </a-card>
+      </a-col>
+    </a-row>
+    <a-row style="margin-top: 15px" v-if="user.roleId == 76">
+      <a-col :span="24">
+        <div style="background: #ECECEC; padding: 30px;">
+          <a-row :gutter="16">
+            <a-col :span="6">
+              <a-card hoverable>
+                <a-row>
+                  <a-col :span="24" style="font-size: 13px;margin-bottom: 8px;font-family: SimHei">本月采购单量</a-col>
+                  <a-col :span="4"><a-icon type="arrow-up" style="font-size: 30px;margin-top: 3px"/></a-col>
+                  <a-col :span="18" style="font-size: 28px;font-weight: 500;font-family: SimHei">
+                    {{ titleData.monthOrderNum }}
+                    <span style="font-size: 20px;margin-top: 3px">单</span>
+                  </a-col>
+                </a-row>
+              </a-card>
+            </a-col>
+            <a-col :span="6">
+              <a-card hoverable>
+                <a-row>
+                  <a-col :span="24" style="font-size: 13px;margin-bottom: 8px;font-family: SimHei">本月采购支出</a-col>
+                  <a-col :span="4"><a-icon type="arrow-up" style="font-size: 30px;margin-top: 3px"/></a-col>
+                  <a-col :span="18" style="font-size: 28px;font-weight: 500;font-family: SimHei">
+                    {{ titleData.monthOrderTotal }}
+                    <span style="font-size: 20px;margin-top: 3px">元</span>
+                  </a-col>
+                </a-row>
+              </a-card>
+            </a-col>
+            <a-col :span="6">
+              <a-card hoverable>
+                <a-row>
+                  <a-col :span="24" style="font-size: 13px;margin-bottom: 8px;font-family: SimHei">本年采购单量</a-col>
+                  <a-col :span="4"><a-icon type="arrow-up" style="font-size: 30px;margin-top: 3px"/></a-col>
+                  <a-col :span="18" style="font-size: 28px;font-weight: 500;font-family: SimHei">
+                    {{ titleData.yearOrderNum }}
+                    <span style="font-size: 20px;margin-top: 3px">单</span>
+                  </a-col>
+                </a-row>
+              </a-card>
+            </a-col>
+            <a-col :span="6">
+              <a-card hoverable>
+                <a-row>
+                  <a-col :span="24" style="font-size: 13px;margin-bottom: 8px;font-family: SimHei">本年采购支出</a-col>
+                  <a-col :span="4"><a-icon type="arrow-up" style="font-size: 30px;margin-top: 3px"/></a-col>
+                  <a-col :span="18" style="font-size: 28px;font-weight: 500;font-family: SimHei">
+                    {{ titleData.yearOrderTotal }}
+                    <span style="font-size: 20px;margin-top: 3px">元</span>
+                  </a-col>
+                </a-row>
+              </a-card>
+            </a-col>
+          </a-row>
+        </div>
+      </a-col>
+    </a-row>
+    <a-row style="margin-top: 15px" v-if="user.roleId == 76" :gutter="15">
       <a-col :span="12">
         <a-card hoverable :bordered="false" style="width: 100%">
           <a-skeleton active v-if="loading" />
@@ -77,25 +147,25 @@
 <!--          <apexchart v-if="!loading" type="donut" height="270" :options="chartOptions2" :series="series2"></apexchart>-->
 <!--        </a-card>-->
 <!--      </a-col>-->
-      <a-col :span="15" v-if="user.roleId != 75">
-        <a-card hoverable :loading="loading" :bordered="false" title="公告信息" style="margin-top: 15px">
-          <div style="padding: 0 22px">
-            <a-list item-layout="vertical" :pagination="pagination" :data-source="bulletinList">
-              <a-list-item slot="renderItem" key="item.title" slot-scope="item, index">
-                <template slot="actions">
-              <span key="message">
-                <a-icon type="message" style="margin-right: 8px" />
-                {{ item.date }}
-              </span>
-                </template>
-                <a-list-item-meta :description="item.content" style="font-size: 14px">
-                  <a slot="title">{{ item.title }}</a>
-                </a-list-item-meta>
-              </a-list-item>
-            </a-list>
-          </div>
-        </a-card>
-      </a-col>
+<!--      <a-col :span="15" v-if="user.roleId != 75">-->
+<!--        <a-card hoverable :loading="loading" :bordered="false" title="公告信息" style="margin-top: 15px">-->
+<!--          <div style="padding: 0 22px">-->
+<!--            <a-list item-layout="vertical" :pagination="pagination" :data-source="bulletinList">-->
+<!--              <a-list-item slot="renderItem" key="item.title" slot-scope="item, index">-->
+<!--                <template slot="actions">-->
+<!--              <span key="message">-->
+<!--                <a-icon type="message" style="margin-right: 8px" />-->
+<!--                {{ item.date }}-->
+<!--              </span>-->
+<!--                </template>-->
+<!--                <a-list-item-meta :description="item.content" style="font-size: 14px">-->
+<!--                  <a slot="title">{{ item.title }}</a>-->
+<!--                </a-list-item-meta>-->
+<!--              </a-list-item>-->
+<!--            </a-list>-->
+<!--          </div>-->
+<!--        </a-card>-->
+<!--      </a-col>-->
     </a-row>
   </div>
 </template>
@@ -278,6 +348,8 @@ export default {
           this.titleData.yearOrderNum = r.data.yearOrderNum
           this.titleData.yearOrderTotal = r.data.yearOrderTotal
           this.bulletinList = r.data.bulletinInfoList
+          this.chartOptions.title.text = '近十天平台收入统计'
+          this.chartOptions1.title.text = '近十天平台单量统计'
           let values = []
           if (r.data.orderNumDayList !== null && r.data.orderNumDayList.length !== 0) {
             if (this.chartOptions1.xaxis.categories.length === 0) {
@@ -300,6 +372,8 @@ export default {
           this.titleData.yearOrderNum = r.data.yearOrderNum
           this.titleData.yearOrderTotal = r.data.yearOrderTotal
           this.bulletinList = r.data.bulletinInfoList
+          this.chartOptions.title.text = '近十天采购支出统计'
+          this.chartOptions1.title.text = '近十天采购单量统计'
           let values = []
           if (r.data.orderNumDayList !== null && r.data.orderNumDayList.length !== 0) {
             if (this.chartOptions1.xaxis.categories.length === 0) {

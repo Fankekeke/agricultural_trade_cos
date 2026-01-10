@@ -353,7 +353,7 @@ export default {
         params.size = this.pagination.defaultPageSize
         params.current = this.pagination.defaultCurrent
       }
-      params.staffId = this.currentUser.userId
+      params.userId = this.currentUser.userId
       this.$get('/cos/address-info/page/staff', {
         ...params
       }).then((r) => {

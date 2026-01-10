@@ -31,12 +31,11 @@
                               <a-select
                                 v-decorator="['goodsType', { rules: [{ required: true, message: '请输入商品类型' }] }]"
                                 placeholder="请输入商品类型"
-                                @change="handleGoodsTypeChange"
                               >
                                 <a-select-option
                                   v-for="category in categoryList"
                                   :key="category.id"
-                                  :value="category.id"
+                                  :value="category.category"
                                 >
                                   {{ category.category }}  <span style="font-size: 11px;margin-left: 10px">当前价格{{ category.price }}元 /千克</span>
                                 </a-select-option>

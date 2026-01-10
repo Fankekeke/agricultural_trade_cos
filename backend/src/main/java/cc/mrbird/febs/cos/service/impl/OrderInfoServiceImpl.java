@@ -15,6 +15,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.TemplateEngine;
@@ -278,6 +279,45 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     }
 
     /**
+     * 订单完成
+     *
+     * @param orderCode 订单编号
+     * @return 订单完成
+     */
+    @Override
+    @Async
+    public void orderFinish(Integer orderCode) {
+        OrderInfo order = this.getById(orderCode);
+
+        UserInfo userInfo = userInfoService.getById(order.getUserId());
+
+        // 保存订单收益
+        StaffIncome staffIncome = new StaffIncome();
+        staffIncome.setStaffId(order.getUserId());
+        staffIncome.setOrderId(order.getId());
+        staffIncome.setCreateDate(DateUtil.formatDateTime(new Date()));
+
+        // 订单价格
+        staffIncome.setIncome(order.getAfterOrderPrice());
+        staffIncome.setTotalPrice(order.getAfterOrderPrice());
+        staffIncomeService.save(staffIncome);
+
+        // 更新用户收益
+        UserInfo user = userInfoService.getById(order.getUserId());
+        user.setPrice(NumberUtil.add(user.getPrice() == null ? BigDecimal.ZERO : user.getPrice(), staffIncome.getTotalPrice()));
+        userInfoService.updateById(user);
+
+        // 邮箱通知
+        if (StrUtil.isNotEmpty(userInfo.getMail())) {
+            Context context = new Context();
+            context.setVariable("today", DateUtil.formatDate(new Date()));
+            context.setVariable("custom", userInfo.getName() + "，您好， 消费订单 " + order.getCode() + " 已完成，可进行评价");
+            String emailContent = templateEngine.process("registerEmail", context);
+            mailService.sendHtmlMail(userInfo.getMail(), DateUtil.formatDate(new Date()) + "订单完成", emailContent);
+        }
+    }
+
+    /**
      * 订单支付
      *
      * @param orderCode 订单编号
@@ -303,6 +343,11 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
             mailService.sendHtmlMail(userInfo.getMail(), DateUtil.formatDate(new Date()) + "支付通知", emailContent);
         }
 
+        // 更新优惠券
+        if (orderInfo.getDiscountId() != null) {
+            discountInfoService.update(Wrappers.<DiscountInfo>lambdaUpdate().set(DiscountInfo::getStatus, "1").eq(DiscountInfo::getId, orderInfo.getDiscountId()));
+        }
+
         // 更新用户积分
         userInfoService.updateById(userInfo);
         // 更新订单状态
@@ -318,17 +363,17 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean auditWithdraw(WithdrawInfo withdrawInfo) throws FebsException {
-        // 批发商信息
-        StaffInfo staffInfo = staffInfoService.getById(withdrawInfo.getStaffId());
+        // 用户信息
+        UserInfo userInfo = userInfoService.getById(withdrawInfo.getStaffId());
 
-        if (withdrawInfo.getWithdrawPrice().compareTo(staffInfo.getPrice()) > 0) {
-            throw new FebsException("批发商余额不足");
+        if (withdrawInfo.getWithdrawPrice().compareTo(userInfo.getPrice()) > 0) {
+            throw new FebsException("用户余额不足");
         }
-        // 更新批发商余额
+        // 更新用户余额
         if ("1".equals(withdrawInfo.getStatus())) {
-            BigDecimal staffPrice = NumberUtil.sub(staffInfo.getPrice(), withdrawInfo.getWithdrawPrice());
-            staffInfo.setPrice(staffPrice);
-            staffInfoService.updateById(staffInfo);
+            BigDecimal staffPrice = NumberUtil.sub(userInfo.getPrice(), withdrawInfo.getWithdrawPrice());
+            userInfo.setPrice(staffPrice);
+            userInfoService.updateById(userInfo);
         }
         return withdrawInfoService.updateById(withdrawInfo);
     }

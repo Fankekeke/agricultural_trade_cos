@@ -85,10 +85,10 @@
               <a-col :span="4"></a-col>
               <a-col :span="4"></a-col>
               <a-col :span="4">
-                <head-info title="总收益" :content="titleData.totalPrice" :center="false" :bordered="false"/>
+                <head-info title="总支出" :content="titleData.totalPrice" :center="false" :bordered="false"/>
               </a-col>
               <a-col :span="4">
-                <head-info title="总订单数" :content="titleData.totalNum" :center="false"/>
+                <head-info title="总采购单数" :content="titleData.totalNum" :center="false"/>
               </a-col>
             </a-row>
           </div>

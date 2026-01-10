@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,6 +60,9 @@ public class DiscountInfoController {
     public R queryDiscountByUser(@RequestParam Integer userId, @RequestParam BigDecimal orderPrice) {
         List<DiscountInfo> discountInfos = new ArrayList<>();
         StaffInfo staffInfo = staffInfoService.getOne(Wrappers.<StaffInfo>lambdaQuery().eq(StaffInfo::getUserId, userId));
+        if (staffInfo == null) {
+            return R.ok(Collections.emptyList());
+        }
         // 判断是有可用优惠券
         List<DiscountInfo> discountInfoList = discountInfoService.list(Wrappers.<DiscountInfo>lambdaQuery().eq(DiscountInfo::getUserId, staffInfo.getId()).eq(DiscountInfo::getStatus, "0"));
         if (CollectionUtil.isNotEmpty(discountInfoList)) {

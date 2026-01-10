@@ -356,7 +356,7 @@
             </a-col>
 <!--            <a-col :span="24" v-else style="margin-top: 15px;background: #fff;padding: 20px">-->
 <!--              <h3 style="font-size: 18px; font-weight: 650; color: #000c17; margin-bottom: 20px; border-left: 4px solid #1890ff; padding-left: 10px;">-->
-<!--                生命周期-->
+<!--                产品周期溯源-->
 <!--              </h3>-->
 <!--              <a-timeline style="margin-top: 20px;">-->
 <!--                <a-timeline-item-->
@@ -378,7 +378,7 @@
 <!--              </div>-->
 
 <!--              <a-modal-->
-<!--                title="添加维修步骤"-->
+<!--                title="添加周期溯源"-->
 <!--                :visible="showAddStepForm"-->
 <!--                @ok="addRepairStep"-->
 <!--                @cancel="showAddStepForm = false"-->

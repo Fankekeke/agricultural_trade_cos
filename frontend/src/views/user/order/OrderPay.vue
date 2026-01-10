@@ -266,8 +266,23 @@
             </div>
           </div>
         </a-col>
-        <a-col :span="15" style="height: 100%;background: #f8f8f8">
+        <a-col :span="15" style="height: 100%;background: #f8f8f8;height: 100vh;overflow-y: auto;overflow-x: hidden">
           <a-row :gutter="15" style="padding: 20px" v-if="orderData != null">
+            <a-col :span="24" style="margin-top: 15px;background: #fff;padding: 20px" v-if="repairSteps.length !== 0 && orderData.putFlag == 1">
+              <h3 style="font-size: 18px; font-weight: 650; color: #000c17; margin-bottom: 20px; border-left: 4px solid #1890ff; padding-left: 10px;">
+                产品周期溯源
+              </h3>
+              <a-timeline style="margin-top: 20px;">
+                <a-timeline-item
+                  v-for="(step, index) in repairSteps"
+                  :key="step.id"
+                  :color="getStepColor(step.status)">
+                  <p style="font-size: 14px; margin-bottom: 5px;">{{ step.time }}</p>
+                  <p style="font-size: 16px; font-weight: 500; color: #000c17;">{{ step.title }}</p>
+                  <p style="font-size: 13px; color: #8c8c8c;">{{ step.description }}</p>
+                </a-timeline-item>
+              </a-timeline>
+            </a-col>
             <a-col :span="24" style="margin-top: 15px;background: #fff;padding: 20px">
               <div v-if="quotationList && quotationList.length > 0">
                 <h3 style="font-size: 18px; font-weight: 650; color: #000c17; margin-bottom: 20px; border-left: 4px solid #1890ff; padding-left: 10px;">报价信息</h3>
@@ -303,12 +318,6 @@
                           </div>
                         </a-col>
                         <a-col :span="8">
-                          <div style="display: flex; align-items: center;">
-                            <a-icon type="clock-circle" style="color: #52c41a; margin-right: 8px;" />
-                            <span>预计工时：{{ item.workHour }} 小时</span>
-                          </div>
-                        </a-col>
-                        <a-col :span="8">
                           <div style="display: flex; justify-content: flex-end;">
                             <a-tag color="blue">批发商报价</a-tag>
                           </div>
@@ -329,89 +338,6 @@
                     </a-card>
                   </a-list-item>
                 </a-list>
-              </div>
-            </a-col>
-            <a-col :span="24" style="margin-top: 15px;background: #fff;padding: 20px">
-              <div>
-                <div>
-                  <div>
-                    <h3 style="font-size: 18px; font-weight: 650; color: #000c17; margin-bottom: 20px; border-left: 4px solid #1890ff; padding-left: 10px;">订单支付</h3>
-                    <!-- 优惠券选择部分 -->
-                    <a-card style="margin-bottom: 20px;">
-                      <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                          <div style="font-size: 16px; font-weight: 600; color: #000c17; margin-bottom: 8px;">优惠券</div>
-                          <div v-if="discountList && discountList.length > 0" style="font-size: 14px; color: #8c8c8c;">
-                            选择可用优惠券享受更多优惠
-                          </div>
-                          <div v-else style="font-size: 14px; color: #8c8c8c;">
-                            暂无可用优惠券
-                          </div>
-                        </div>
-                        <div>
-                          <a-select
-                            v-model="selectedDiscountId"
-                            style="width: 200px;"
-                            placeholder="选择优惠券"
-                            @change="calculateFinalPrice"
-                          >
-                            <a-select-option :value="0">不使用优惠券</a-select-option>
-                            <a-select-option
-                              v-for="discount in discountList"
-                              :key="discount.id"
-                              :value="discount.id"
-                            >
-                              <div v-if="discount.type == '1'">
-                                {{ discount.couponName }} (满{{ discount.threshold }}减{{ discount.discountPrice }})
-                              </div>
-                              <div v-if="discount.type == '2'">
-                                {{ discount.couponName }} ({{ discount.rebate }}折)
-                              </div>
-                            </a-select-option>
-                          </a-select>
-                        </div>
-                      </div>
-                    </a-card>
-
-                    <!-- 订单结算信息 -->
-                    <a-card>
-                      <div style="font-size: 16px; font-weight: 600; color: #000c17; margin-bottom: 15px;">结算信息</div>
-
-                      <div style="padding: 10px 0;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                          <span style="color: #595959;">商品总价</span>
-                          <span>¥{{ orderInfo.orderPrice }}</span>
-                        </div>
-
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;" v-if="selectedDiscount && selectedDiscount.id !== 0">
-                          <span style="color: #595959;">
-                            优惠券抵扣
-                            <span v-if="selectedDiscount.type == '1'">
-                              (满{{ selectedDiscount.threshold }}减{{ selectedDiscount.discountPrice }})
-                            </span>
-                            <span v-if="selectedDiscount.type == '2'">
-                              ({{ selectedDiscount.rebate }}折)
-                            </span>
-                          </span>
-                          <span style="color: #ff4d4f;">-¥{{ (discountAmount).toFixed(1) }}</span>
-                        </div>
-
-                        <a-divider style="margin: 15px 0;" />
-
-                        <div style="display: flex; justify-content: space-between;">
-                          <span style="font-size: 18px; font-weight: 600; color: #000c17;">实付款</span>
-                          <span style="font-size: 20px; font-weight: 700; color: #ff4d4f;">¥{{ finalPrice }}</span>
-                        </div>
-                      </div>
-
-                      <div style="margin-top: 20px; text-align: right;">
-                        <a-button type="primary" size="large" @click="confirmPayment">
-                          确认支付
-                        </a-button>
-                      </div>
-                    </a-card>
-                  </div>
-                </div>
               </div>
             </a-col>
           </a-row>
@@ -445,6 +371,7 @@ export default {
   },
   data () {
     return {
+      repairSteps: [],
       selectedDiscountId: 0,
       selectedDiscount: null,
       discountAmount: 0,
@@ -526,6 +453,28 @@ export default {
     }
   },
   methods: {
+    queryRepairStep (orderId) {
+      this.$get(`/cos/order-info/queryRepairStep/${orderId}`).then((r) => {
+        if (r.data.msg) {
+          let repairStep = JSON.parse(r.data.msg)
+          this.repairSteps = repairStep
+        } else {
+          this.repairSteps = []
+        }
+      })
+    },
+    getStepColor (status) {
+      switch (status) {
+        case 'completed':
+          return 'green'
+        case 'in-progress':
+          return 'blue'
+        case 'pending':
+          return 'gray'
+        default:
+          return 'gray'
+      }
+    },
     orderPay () {
       let data = { outTradeNo: this.orderData.code, subject: `${this.orderData.createDate}缴费信息`, totalAmount: this.finalPrice, body: '', discountId: this.selectedDiscount ? this.selectedDiscount.id : null }
       console.log(data)
@@ -703,6 +652,7 @@ export default {
         this.flawImagesInit(this.orderInfo.flawImages)
         this.queryQuotationByOrder()
         this.queryDiscountByUser(this.orderInfo.orderPrice)
+        this.queryRepairStep(orderId)
         setTimeout(() => {
           baiduMap.initMap('areas')
           this.getLocal()

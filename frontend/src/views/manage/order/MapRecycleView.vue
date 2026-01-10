@@ -450,7 +450,7 @@
             </a-col>
             <a-col :span="24" style="margin-top: 15px;background: #fff;padding: 20px" v-if="repairSteps.length !== 0">
               <h3 style="font-size: 18px; font-weight: 650; color: #000c17; margin-bottom: 20px; border-left: 4px solid #1890ff; padding-left: 10px;">
-                生命周期
+                产品周期溯源
               </h3>
               <a-timeline style="margin-top: 20px;">
                 <a-timeline-item

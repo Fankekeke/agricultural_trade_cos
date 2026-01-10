@@ -17,7 +17,8 @@
         user_id,
         create_date,
         images,
-        integral
+        integral,
+        price
         from
         user_info
         where

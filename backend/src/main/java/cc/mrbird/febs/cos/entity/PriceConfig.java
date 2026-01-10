@@ -51,4 +51,10 @@ public class PriceConfig implements Serializable {
     @TableField(exist = false)
     private BigDecimal price;
 
+    /**
+     * 上次价格
+     */
+    @TableField(exist = false)
+    private BigDecimal lastPrice;
+
 }

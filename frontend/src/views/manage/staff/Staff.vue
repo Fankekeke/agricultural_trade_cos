@@ -27,8 +27,8 @@
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
                 <a-select v-model="queryParams.status" allowClear>
-                  <a-select-option value="1">在职</a-select-option>
-                  <a-select-option value="2">离职</a-select-option>
+                  <a-select-option value="1">正常</a-select-option>
+                  <a-select-option value="2">暂离</a-select-option>
                 </a-select>
               </a-form-item>
             </a-col>
@@ -165,21 +165,11 @@ export default {
         customRender: (text, row, index) => {
           switch (text) {
             case 1:
-              return <a-tag color="green">在职</a-tag>
+              return <a-tag color="green">正常</a-tag>
             case 2:
-              return <a-tag color="red">离职</a-tag>
+              return <a-tag color="red">暂离</a-tag>
             default:
               return '- -'
-          }
-        }
-      }, {
-        title: '余额',
-        dataIndex: 'price',
-        customRender: (text, row, index) => {
-          if (text !== null) {
-            return text + '元'
-          } else {
-            return '- -'
           }
         }
       }, {

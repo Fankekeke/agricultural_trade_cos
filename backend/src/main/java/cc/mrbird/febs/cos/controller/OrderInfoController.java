@@ -21,6 +21,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -66,10 +67,10 @@ public class OrderInfoController {
     }
 
     /**
-     * 查询订单维修步骤
+     * 查询订单生命周期
      *
      * @param orderId 订单ID
-     * @return 订单维修步骤
+     * @return 订单生命周期
      */
     @GetMapping("/queryRepairStep/{orderId}")
     public R queryRepairStep(@PathVariable("orderId") Integer orderId) {
@@ -155,14 +156,32 @@ public class OrderInfoController {
     }
 
     /**
-     * 维修完成
+     * 发布商品
      *
      * @param orderId 订单编号
      * @return 结果
      */
     @GetMapping("/complete/{orderId}")
     public R orderComplete(@PathVariable("orderId") Integer orderId) {
-        return R.ok(orderInfoService.update(Wrappers.<OrderInfo>lambdaUpdate().set(OrderInfo::getFinishDate, DateUtil.formatDateTime(new Date())).eq(OrderInfo::getId, orderId)));
+        return R.ok(orderInfoService.update(Wrappers.<OrderInfo>lambdaUpdate().set(OrderInfo::getPutFlag, "1")
+                .set(OrderInfo::getStatus, "0")
+                .eq(OrderInfo::getId, orderId)));
+    }
+
+    /**
+     * 采购完成
+     *
+     * @param orderId 订单编号
+     * @return 结果
+     */
+    @GetMapping("/orderFin/{orderId}")
+    @Transactional(rollbackFor = Exception.class)
+    public R orderFin(@PathVariable("orderId") Integer orderId) {
+        orderInfoService.orderFinish(orderId);
+        return R.ok(orderInfoService.update(Wrappers.<OrderInfo>lambdaUpdate().set(OrderInfo::getFinishDate, DateUtil.formatDateTime(new Date()))
+                        .set(OrderInfo::getDeliveryDate, DateUtil.formatDateTime(new Date()))
+                .set(OrderInfo::getStatus, "3")
+                .eq(OrderInfo::getId, orderId)));
     }
 
     /**
@@ -177,7 +196,7 @@ public class OrderInfoController {
     }
 
     /**
-     * 更新订单维修步骤
+     * 更新订单生命周期
      *
      * @param orderInfo 订单信息
      * @return 订单信息
@@ -297,13 +316,13 @@ public class OrderInfoController {
             orderInfo.setUserId(userInfo.getId());
         }
         orderInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
-        orderInfo.setStatus("0");
+        orderInfo.setStatus("-1");
         orderInfo.setCode("ORD-" + System.currentTimeMillis());
         // 针对农产品名称进行分词
         TokenizerEngine engine = TokenizerUtil.createEngine();
         //解析文本
         Result result = engine.parse(orderInfo.getOrderName());
-        String resultStr = CollUtil.join((Iterator<Word>)result, ",");
+        String resultStr = CollUtil.join((Iterator<Word>) result, ",");
         orderInfo.setTagList(resultStr);
         return R.ok(orderInfoService.save(orderInfo));
     }

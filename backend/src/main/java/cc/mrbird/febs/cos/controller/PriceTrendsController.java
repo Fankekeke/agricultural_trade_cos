@@ -7,6 +7,7 @@ import cc.mrbird.febs.cos.entity.PriceConfig;
 import cc.mrbird.febs.cos.entity.PriceTrends;
 import cc.mrbird.febs.cos.service.IPriceConfigService;
 import cc.mrbird.febs.cos.service.IPriceTrendsService;
+import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
@@ -49,9 +50,12 @@ public class PriceTrendsController {
     public R queryAllCategoryPrice() {
         List<PriceConfig> list = priceConfigService.list();
         list.forEach(item -> {
-            PriceTrends trends = priceTrendsService.getOne(Wrappers.<PriceTrends>lambdaQuery().eq(PriceTrends::getId, item.getId()).orderByDesc(PriceTrends::getRecordDate).last("limit 1"));
-            if (trends != null) {
-                item.setPrice(trends.getPrice());
+            List<PriceTrends> trends = priceTrendsService.list(Wrappers.<PriceTrends>lambdaQuery().eq(PriceTrends::getCategory, item.getCategory()).orderByDesc(PriceTrends::getRecordDate).last("limit 2"));
+            if (CollectionUtil.isNotEmpty(trends)) {
+                item.setPrice(trends.get(0).getPrice());
+                if (trends.size() > 1) {
+                    item.setLastPrice(trends.get(1).getPrice());
+                }
             } else {
                 item.setPrice(BigDecimal.ZERO);
             }
@@ -118,6 +122,7 @@ public class PriceTrendsController {
      * @param category 品类
      * @return 列表
      */
+    @GetMapping("/queryCategoryTrend")
     public R queryCategoryTrend(String category) {
         return R.ok(priceTrendsService.queryCategoryTrend(category));
     }

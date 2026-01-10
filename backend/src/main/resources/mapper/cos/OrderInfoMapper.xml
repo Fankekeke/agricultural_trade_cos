@@ -35,7 +35,7 @@
             AND si.user_id = #{orderInfo.staffIds}
         </if>
         <if test="orderInfo.staffFlag != null and orderInfo.staffFlag != ''">
-            AND oi.status = '0'
+            AND oi.status = '0' and oi.put_flag = '1'
         </if>
         order by oi.create_date desc
     </select>

@@ -85,6 +85,7 @@ public class EvaluateInfoController {
         } else {
             staffInfo.setScore(evaluateInfoList.stream().map(EvaluateInfo::getScore).reduce(BigDecimal.ZERO, BigDecimal::add).divide(new BigDecimal(evaluateInfoList.size()), 1, RoundingMode.HALF_UP));
         }
+        staffInfoService.updateById(staffInfo);
         return R.ok(evaluateInfoService.save(evaluateInfo));
     }
 

@@ -211,6 +211,11 @@ public class OrderInfo implements Serializable {
     private Integer quotationId;
 
     /**
+     * 是否上架
+     */
+    private String putFlag;
+
+    /**
      * 是否使用优惠券
      */
     @TableField(exist = false)

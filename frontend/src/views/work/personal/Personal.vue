@@ -2,10 +2,6 @@
   <a-row :gutter="20">
     <a-col :span="8">
       <a-card :loading="loading" :bordered="false">
-        <div style="text-align: center;margin-bottom: 15px">
-          <a-icon type="wallet" theme="twoTone" style="font-size: 60px"/>
-          <p style="font-size: 20px;margin-top: 15px;margin-bottom: 15px">余额 {{ price }} 元</p>
-        </div>
         <a-form :form="form" layout="vertical">
           <a-row :gutter="20">
             <a-col :span="12">

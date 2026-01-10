@@ -81,7 +81,7 @@ export default {
   },
   methods: {
     getStaff () {
-      this.$get(`/cos/staff-info/detail/${this.currentUser.userId}`).then((r) => {
+      this.$get(`/cos/user-info/detailByUserId/${this.currentUser.userId}`).then((r) => {
         this.staffInfo = r.data.data
         this.accountPrice = this.staffInfo.price
         this.form.setFieldsValue({'accountPrice': this.staffInfo.price})

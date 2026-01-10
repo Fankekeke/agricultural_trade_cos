@@ -30,16 +30,16 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label='在职状态' v-bind="formItemLayout">
+          <a-form-item label='状态' v-bind="formItemLayout">
             <a-radio-group button-style="solid" v-decorator="[
               'status',
-              { rules: [{ required: true, message: '请输入在职状态!' }] }
+              { rules: [{ required: true, message: '请输入状态!' }] }
               ]">
               <a-radio-button value="1">
-                在职
+                正常
               </a-radio-button>
               <a-radio-button value="2">
-                离职
+                暂离
               </a-radio-button>
             </a-radio-group>
           </a-form-item>

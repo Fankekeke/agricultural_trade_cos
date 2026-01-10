@@ -35,7 +35,7 @@ public class ChatRecord implements Serializable {
     private Integer staffId;
 
     /**
-     * 发送者类型 0-用户 1-维修
+     * 发送者类型 0-用户 1-批发商
      */
     private String senderType;
 

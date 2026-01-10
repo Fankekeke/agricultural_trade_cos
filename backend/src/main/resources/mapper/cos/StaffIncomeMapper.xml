@@ -20,7 +20,7 @@
         oi.order_name
         from
         staff_income stin
-        left join staff_info si on (si.id = stin.staff_id)
+        left join user_info si on (si.id = stin.staff_id)
         left join order_info oi on (oi.id = stin.order_id)
         where 1 = 1
         <if test="staffIncome.code != null and staffIncome.code != ''">

@@ -37,8 +37,11 @@
                       <a-step title="已完成" />
                     </a-steps>
                   </div>
-                  <div v-if="orderData.status == 2 || orderData.status == 3">
-                    <h3 style="font-size: 18px; font-weight: 650; color: #000c17; margin-bottom: 20px; border-left: 4px solid #1890ff; padding-left: 10px;">地址</h3>
+                  <div v-if="orderData.status == 1 || orderData.status == 2 || orderData.status == 3">
+                    <h3 style="font-size: 18px; font-weight: 650; color: #000c17; margin-bottom: 20px; border-left: 4px solid #1890ff; padding-left: 10px;">
+                      地址
+                      <a @click="rentNavigation" style="font-size: 13px;float: right">导航</a>
+                    </h3>
                     <div id="areas" style="width: 100%;height: 350px;box-shadow: 3px 3px 3px rgba(0, 0, 0, .2);background:#ec9e3c;color:#fff"></div>
                   </div>
                 </a-card>
@@ -318,17 +321,6 @@
                             />
                           </a-form-item>
                         </a-col>
-                        <a-col :span="8">
-                          <a-form-item label="工时(小时)">
-                            <a-input-number
-                              style="width: 100%"
-                              :disabled="orderData && orderData.status > 0"
-                              v-decorator="['workHour', { rules: [{ required: true, message: '请输入工时' }] }]"
-                              placeholder="请输入工时"
-                              :min="0"
-                            />
-                          </a-form-item>
-                        </a-col>
                       </a-row>
                       <a-row :gutter="16">
                         <a-col :span="24">
@@ -352,22 +344,9 @@
                 </a-row>
               </div>
             </a-col>
-            <a-col :span="24" v-if="orderData.status == 2 && orderData.orderMethod == 2 && orderData.deliveryDate == null && orderData.logisticsInfo != null" style="margin-top: 15px;background: #fff;padding: 20px">
+            <a-col :span="24" v-if="(orderData.orderMethod == 2 && orderData.deliveryDate != null && orderData.logisticsInfo != null) || repairSteps.length > 0 || orderData.orderMethod == 1 && orderData.status == 2 && repairSteps.length == 0" style="margin-top: 15px;background: #fff;padding: 20px" >
               <h3 style="font-size: 18px; font-weight: 650; color: #000c17; margin-bottom: 20px; border-left: 4px solid #1890ff; padding-left: 10px;">
-                物流信息
-              </h3>
-              <div v-if="orderData.logisticsInfo" style="padding: 15px; background: #f5f5f5; border-radius: 4px; margin-bottom: 20px;">
-                <a-row :gutter="16">
-                  <a-col :span="8"><b>物流公司：</b>{{ JSON.parse(orderData.logisticsInfo).company }}</a-col>
-                  <a-col :span="8"><b>物流单号：</b>{{ JSON.parse(orderData.logisticsInfo).trackingNumber }}</a-col>
-                  <a-col :span="8"><b>备注信息：</b>{{ JSON.parse(orderData.logisticsInfo).remark }}</a-col>
-                </a-row>
-              </div>
-              <a-button type="primary" @click="confirmReceipt">确认收货</a-button>
-            </a-col>
-            <a-col :span="24"  v-if="(orderData.orderMethod == 2 && orderData.deliveryDate != null && orderData.logisticsInfo != null) || repairSteps.length > 0 || orderData.orderMethod == 1 && orderData.status == 2 && repairSteps.length == 0" style="margin-top: 15px;background: #fff;padding: 20px" >
-              <h3 style="font-size: 18px; font-weight: 650; color: #000c17; margin-bottom: 20px; border-left: 4px solid #1890ff; padding-left: 10px;">
-                生命周期
+                产品周期溯源
               </h3>
               <a-timeline style="margin-top: 20px;">
                 <a-timeline-item
@@ -379,17 +358,8 @@
                   <p style="font-size: 13px; color: #8c8c8c;">{{ step.description }}</p>
                 </a-timeline-item>
               </a-timeline>
-              <div style="margin-top: 20px; text-align: right;" v-if="orderData.finishDate == null">
-                <a-button type="primary" v-if="repairSteps.length > 0" @click="completeRepair">
-                  维修完成
-                </a-button>
-                <a-button type="primary" icon="plus" @click="showAddStepForm = true">
-                  添加步骤
-                </a-button>
-              </div>
-
               <a-modal
-                title="添加维修步骤"
+                title="添加周期溯源"
                 :visible="showAddStepForm"
                 @ok="addRepairStep"
                 @cancel="showAddStepForm = false"
@@ -416,6 +386,36 @@
                   </a-form-item>
                 </a-form>
               </a-modal>
+            </a-col>
+            <a-col :span="24" v-if="(orderData.orderMethod == 2 && orderData.deliveryDate != null && orderData.logisticsInfo != null) || repairSteps.length > 0 || orderData.orderMethod == 1 && orderData.status == 2 && repairSteps.length == 0">
+              <div v-if="orderData.orderMethod == 2 && orderData.logisticsInfo == null" style="text-align: center; margin-top: 50px;background-color: white;padding: 30px">
+                <a-icon type="shopping-cart" style="font-size: 80px"/>
+                <p style="font-size: 20px;margin-top: 15px;margin-bottom: 15px">等待卖家发货！</p>
+              </div>
+              <div style="margin-top: 20px; text-align: right;" v-if="orderData.orderMethod == 1">
+                <a-button
+                  type="primary"
+                  @click="completeRepair"
+                  class="complete-btn"
+                  size="large"
+                >
+                  <a-icon type="check-circle" />
+                  采购完成
+                </a-button>
+              </div>
+            </a-col>
+            <a-col :span="24" v-if="orderData.status == 2 && orderData.orderMethod == 2 && orderData.deliveryDate == null && orderData.logisticsInfo != null" style="margin-top: 15px;background: #fff;padding: 20px">
+              <h3 style="font-size: 18px; font-weight: 650; color: #000c17; margin-bottom: 20px; border-left: 4px solid #1890ff; padding-left: 10px;">
+                物流信息
+              </h3>
+              <div v-if="orderData.logisticsInfo" style="padding: 15px; background: #f5f5f5; border-radius: 4px; margin-bottom: 20px;">
+                <a-row :gutter="16">
+                  <a-col :span="8"><b>物流公司：</b>{{ JSON.parse(orderData.logisticsInfo).company }}</a-col>
+                  <a-col :span="8"><b>物流单号：</b>{{ JSON.parse(orderData.logisticsInfo).trackingNumber }}</a-col>
+                  <a-col :span="8"><b>备注信息：</b>{{ JSON.parse(orderData.logisticsInfo).remark }}</a-col>
+                </a-row>
+              </div>
+              <a-button type="primary" @click="completeRepair">确认收货完成</a-button>
             </a-col>
           </a-row>
         </a-col>
@@ -528,20 +528,39 @@ export default {
     'orderShow': function (value) {
       if (value) {
         this.dataInit(this.orderData.id)
+        this.getLocal()
         this.queryStaffAddress()
       }
     }
   },
   methods: {
+    rentNavigation () {
+      if (this.startAddressInfo != null) {
+        this.navigation(this.startAddressInfo)
+      }
+      if (this.endAddressInfo != null) {
+        this.navigation(this.endAddressInfo)
+      }
+    },
+    navigation (data) {
+      baiduMap.clearOverlays()
+      baiduMap.rMap().enableScrollWheelZoom(true)
+      // eslint-disable-next-line no-undef
+      let driving = new BMap.DrivingRoute(baiduMap.rMap(), {renderOptions: {map: baiduMap.rMap(), autoViewport: true}})
+      // eslint-disable-next-line no-undef
+      let point = new BMap.Point(data.longitude, data.latitude)
+      driving.search(new BMap.Point(this.nowPoint.lng, this.nowPoint.lat), point)
+      // this.getRoadData()
+    },
     completeRepair () {
       this.$confirm({
-        title: '确认维修完成',
-        content: '确定要标记此维修订单为完成状态吗？',
+        title: '确认采购完成',
+        content: '确定要标记此订单为完成状态吗？',
         okText: '确认',
         cancelText: '取消',
         onOk: () => {
-          this.$get(`/cos/order-info/complete/${this.orderInfo.id}`).then((r) => {
-            this.$message.success('维修已完成')
+          this.$get(`/cos/order-info/orderFin/${this.orderInfo.id}`).then((r) => {
+            this.$message.success('采购已完成')
             this.$emit('close')
           }).catch((e) => {
             this.$message.error('操作失败')
@@ -769,15 +788,6 @@ export default {
       // let driving = new BMap.DrivingRoute(baiduMap.rMap(), {renderOptions:{map: baiduMap.rMap(), autoViewport: true}});
       // driving.search(new BMap.Point(this.nowPoint.lng,this.nowPoint.lat), new BMap.Point(scenic.point.split(",")[0],scenic.point.split(",")[1]));
     },
-    navigation (address, merchant) {
-      baiduMap.clearOverlays()
-      baiduMap.rMap().enableScrollWheelZoom(true)
-      // eslint-disable-next-line no-undef
-      let driving = new BMap.DrivingRoute(baiduMap.rMap(), {renderOptions: {map: baiduMap.rMap(), autoViewport: true}})
-      // eslint-disable-next-line no-undef
-      driving.search(new BMap.Point(merchant.longitude, merchant.latitude), new BMap.Point(address.longitude, address.latitude))
-      // this.getRoadData()
-    },
     getRoadData () {
       let options = {
         onSearchComplete: results => {
@@ -874,5 +884,36 @@ export default {
   }
   >>> .ant-radio-button-wrapper {
     border-radius: 0;
+  }
+
+  >>> .delivery-status-large {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #e6f7ff 0%, #d1eaff 100%);
+    border: 2px solid #91d5ff;
+    border-radius: 8px;
+    color: #1890ff;
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 15px;
+    box-shadow: 0 2px 8px rgba(24, 144, 255, 0.15);
+    gap: 10px;
+  }
+
+  >>> .status-icon {
+    font-size: 20px;
+    animation: pulse 2s infinite;
+  }
+
+  >>> .status-text-large {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  @keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
   }
 </style>

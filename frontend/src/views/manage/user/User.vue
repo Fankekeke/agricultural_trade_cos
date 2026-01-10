@@ -145,6 +145,16 @@ export default {
           </a-popover>
         }
       }, {
+        title: '余额',
+        dataIndex: 'price',
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text + '元'
+          } else {
+            return '- -'
+          }
+        }
+      }, {
         title: '注册时间',
         dataIndex: 'createDate',
         customRender: (text, row, index) => {

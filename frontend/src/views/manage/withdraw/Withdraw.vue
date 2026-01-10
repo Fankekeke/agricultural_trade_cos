@@ -7,7 +7,7 @@
           <div :class="advanced ? null: 'fold'">
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="批发商编号"
+                label="用户编号"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
                 <a-input v-model="queryParams.code"/>
@@ -15,7 +15,7 @@
             </a-col>
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="批发商姓名"
+                label="用户姓名"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
                 <a-input v-model="queryParams.staffName"/>
@@ -142,11 +142,11 @@ export default {
     }),
     columns () {
       return [{
-        title: '批发商编号',
+        title: '用户编号',
         dataIndex: 'code',
         ellipsis: true
       }, {
-        title: '批发商姓名',
+        title: '用户姓名',
         dataIndex: 'name',
         ellipsis: true
       }, {

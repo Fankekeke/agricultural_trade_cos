@@ -63,9 +63,10 @@
           </template>
         </template>
         <template slot="operation" slot-scope="text, record">
-          <a-icon v-if="record.orderType == 1" type="cluster" @click="orderMapOpen(record)" title="地 图" style="margin-left: 15px"></a-icon>
-          <a-icon v-if="record.orderType == 2" type="cluster" @click="orderRecycleMapOpen(record)" title="地 图" style="margin-left: 15px"></a-icon>
-          <a-icon v-if="(record.orderType == 2 && record.status == 1 && record.orderMethod == 1) || (record.orderType == 2 && record.orderMethod == 2 && record.status == 1 && record.deliveryDate == null && record.logisticsInfo == null)" type="alipay" @click="processPayment(record)" title="支 付" style="margin-left: 15px"></a-icon>
+          <a-icon v-if="record.status != 1" type="cluster" @click="orderMapOpen(record)" title="地 图" style="margin-left: 15px"></a-icon>
+          <a-icon v-if="record.status == 1" type="cluster" @click="handleorderMapPayOpen(record)" title="详 情" style="margin-left: 15px"></a-icon>
+<!--          <a-icon v-if="record.orderType == 2" type="cluster" @click="orderRecycleMapOpen(record)" title="地 图" style="margin-left: 15px"></a-icon>-->
+<!--          <a-icon v-if="(record.orderType == 2 && record.status == 1 && record.orderMethod == 1) || (record.orderType == 2 && record.orderMethod == 2 && record.status == 1 && record.deliveryDate == null && record.logisticsInfo == null)" type="alipay" @click="processPayment(record)" title="支 付" style="margin-left: 15px"></a-icon>-->
         </template>
       </a-table>
     </div>
@@ -101,6 +102,11 @@
       :orderShow="orderRecycleMapView.visiable"
       :orderData="orderRecycleMapView.data">
     </MapRecycleView>
+    <OrderPay
+      @close="handleorderMapPayClose"
+      :orderShow="orderPayView.visiable"
+      :orderData="orderPayView.data">
+    </OrderPay>
   </a-card>
 </template>
 
@@ -114,16 +120,21 @@ import OrderView from './OrderView'
 import OrderStatus from './OrderStatus.vue'
 import MapView from './OrderMap.vue'
 import MapRecycleView from './OrderRecycleMap.vue'
+import OrderPay from './OrderPay.vue'
 moment.locale('zh-cn')
 
 export default {
   name: 'order',
-  components: {OrderView, OrderAudit, RangeDate, OrderStatus, OrderAdd, MapView, MapRecycleView},
+  components: {OrderView, OrderAudit, RangeDate, OrderStatus, OrderAdd, MapView, MapRecycleView, OrderPay},
   data () {
     return {
       advanced: false,
       orderAdd: {
         visiable: false
+      },
+      orderPayView: {
+        visiable: false,
+        data: null
       },
       orderEdit: {
         visiable: false
@@ -295,6 +306,13 @@ export default {
     this.fetch()
   },
   methods: {
+    handleorderMapPayClose () {
+      this.orderPayView.visiable = false
+    },
+    handleorderMapPayOpen (row) {
+      this.orderPayView.data = row
+      this.orderPayView.visiable = true
+    },
     processPayment (record) {
       // 构造支付参数
       const paymentData = {
